@@ -1,0 +1,25 @@
+{
+  "name": "bandwagon",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Race-proof team formation for large hackathons",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter @bw/api --filter @bw/web dev",
+    "build": "pnpm -F @bw/shared build && pnpm -F @bw/web build && pnpm -F @bw/api build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "db:up": "docker compose up -d db",
+    "migrate": "pnpm -F @bw/api migrate",
+    "seed": "pnpm -F @bw/api seed",
+    "chaos": "pnpm -F @bw/api chaos"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  }
+}

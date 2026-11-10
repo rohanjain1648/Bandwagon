@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@rollup/rollup-linux-loong64-gnu@4.68.2'
+  - '@rollup/rollup-win32-ia32-msvc@4.68.2'
+  - '@rollup/rollup-win32-x64-gnu@4.68.2'

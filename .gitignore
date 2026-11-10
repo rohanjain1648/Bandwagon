@@ -14,3 +14,4 @@ test-results/
 playwright-report/
 .remember/
 # impeccable runtime dirs ignore themselves; keep briefs and config tracked
+.localdb/

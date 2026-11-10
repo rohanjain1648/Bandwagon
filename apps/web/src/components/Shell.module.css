@@ -33,7 +33,7 @@
   color: inherit;
   text-decoration: none;
   padding: var(--s-1);
-  border-radius: 8px;
+  border-radius: var(--r-control);
 }
 
 .wordmark {
@@ -42,7 +42,7 @@
   gap: 9px;
   font-variation-settings: 'wdth' 64;
   font-weight: 900;
-  font-size: 1.55rem;
+  font-size: var(--t-28);
   letter-spacing: -0.01em;
   line-height: 1;
   color: var(--ink);
@@ -148,9 +148,9 @@
 .dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  background: #52d6a3;
-  box-shadow: 0 0 0 3px rgba(82, 214, 163, 0.25);
+  border-radius: var(--r-pill);
+  background: var(--live);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 25%, transparent);
 }
 
 .live[data-state='live'] .dot {
@@ -165,7 +165,7 @@
 
 @keyframes pulse {
   50% {
-    box-shadow: 0 0 0 6px rgba(82, 214, 163, 0.08);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--live) 8%, transparent);
   }
 }
 
@@ -174,7 +174,7 @@
   display: flex;
   gap: var(--s-3);
   padding: var(--s-3);
-  border-radius: 12px;
+  border-radius: var(--r-card);
   background: var(--card);
   color: var(--ink);
   text-decoration: none;
@@ -250,7 +250,7 @@
   }
 
   .topbar .wordmark {
-    font-size: 1.3rem;
+    font-size: var(--t-22);
   }
 
   .topEvent {
@@ -298,7 +298,7 @@
     gap: 3px;
     height: var(--tabbar-h);
     color: var(--on-shell-2);
-    font-size: 11px;
+    font-size: var(--t-12);
     font-weight: 700;
     text-decoration: none;
   }

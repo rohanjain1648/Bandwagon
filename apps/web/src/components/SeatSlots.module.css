@@ -47,7 +47,7 @@
 
 /* claiming: hatched with a foil edge, while the server referees */
 .seat[data-state='claiming'] {
-  background: repeating-linear-gradient(135deg, #fbe7bc 0 6px, var(--card) 6px 12px);
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--foil) 32%, var(--card)) 0 6px, var(--card) 6px 12px);
   color: var(--ink);
   box-shadow: 0 0 0 1.5px var(--foil-deep) inset;
   animation: deal var(--dur-deal) var(--ease-deal) both;
@@ -78,7 +78,7 @@
 }
 
 .tag {
-  font-size: 10.5px;
+  font-size: var(--t-12);
   font-weight: 700;
   line-height: 1.1;
   white-space: nowrap;
@@ -130,7 +130,7 @@
   min-height: 128px;
   padding: var(--s-3);
   gap: var(--s-3);
-  border-radius: 10px;
+  border-radius: var(--r-control);
 }
 
 .seats[data-size='lg'] .initials {
@@ -160,12 +160,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* !important + higher specificity: beats the global reduced-motion clamp, so this stays a crossfade */
   .seat[data-dealt],
   .seat[data-state='claiming'] {
-    animation: fade 200ms ease both;
+    animation: fade 200ms ease both !important;
   }
   .seat[data-phase='bounced'] {
-    animation: fadeout 400ms ease forwards;
+    animation: fadeout 400ms ease forwards !important;
   }
   @keyframes fade {
     from {

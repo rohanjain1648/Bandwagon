@@ -33,6 +33,8 @@
   --warn-tint: #fdf3dc;
   --foil: #f2b134;
   --foil-deep: #b97f0c;
+  /* live-connection dot on the shell (8.1:1 on ultramarine); status only, never a skill or a seat */
+  --live: #52d6a3;
 
   /* skill types (each passes 4.5:1 with white text and as text on card stock) */
   --role-frontend: #c23a22;

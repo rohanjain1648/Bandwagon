@@ -361,8 +361,13 @@ function PeopleGrid({ params, highlight }: { params: URLSearchParams; highlight:
 
 /** What this pick specifically brings (lit chips) and how much of the day you share. */
 function FitDetail({ s, skills }: { s: { matchedSkills: string[]; newRoles: string[]; overlapHours: number }; skills: string[] }) {
-  const roleSkills = skills.filter((id) => !s.matchedSkills.includes(id) && s.newRoles.includes(SKILLS.find((x) => x.id === id)?.role ?? ''));
-  const shown = [...s.matchedSkills, ...roleSkills].slice(0, 4);
+  const roleOfId = (id: string) => SKILLS.find((x) => x.id === id)?.role ?? '';
+  const roleSkills = skills.filter((id) => !s.matchedSkills.includes(id) && s.newRoles.includes(roleOfId(id)));
+  // every new role that counts toward the score is represented first, then the rest up to the cap
+  const perRole = s.newRoles.map((r) => roleSkills.find((id) => roleOfId(id) === r)).filter((x): x is string => Boolean(x));
+  const ordered = [...new Set([...s.matchedSkills, ...perRole, ...roleSkills])];
+  const shown = ordered.slice(0, Math.max(4, s.matchedSkills.length + perRole.length));
+  const more = ordered.length - shown.length;
   const h = s.overlapHours;
   return (
     <>
@@ -371,6 +376,7 @@ function FitDetail({ s, skills }: { s: { matchedSkills: string[]; newRoles: stri
           {shown.map((id) => (
             <SkillChip key={id} id={id} lit />
           ))}
+          {more > 0 && <span className={styles.muted}>+{more} more</span>}
         </div>
       )}
       <p className={styles.fitWhy}>{h > 0 ? `${Number.isInteger(h) ? h : h.toFixed(1)} h of shared working hours` : 'No shared working hours'}</p>

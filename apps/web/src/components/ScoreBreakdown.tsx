@@ -1,7 +1,7 @@
 import type { ScoreBreakdown as Score } from '@bw/shared';
 import styles from './ScoreBreakdown.module.css';
 
-const TONE: Record<string, string> = { complement: 'var(--shell)', timezone: 'var(--role-backend)', novelty: 'var(--foil-deep)' };
+const TONE: Record<string, string> = { complement: 'var(--shell)', timezone: 'var(--shell-hi)', novelty: 'var(--ink-3)' };
 
 /**
  * The score explains itself: one bar split into its three weighted parts

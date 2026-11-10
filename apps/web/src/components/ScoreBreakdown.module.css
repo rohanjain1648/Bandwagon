@@ -26,7 +26,7 @@
 .bar {
   display: flex;
   height: 8px;
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   overflow: hidden;
   background: var(--sunk);
   box-shadow: inset 0 0 0 1px var(--keyline);
@@ -67,7 +67,7 @@
 .swatch {
   width: 12px;
   height: 12px;
-  border-radius: 2px;
+  border-radius: var(--r-chip);
 }
 
 .partLabel {

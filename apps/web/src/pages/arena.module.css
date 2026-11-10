@@ -15,15 +15,15 @@
 
 .token {
   aspect-ratio: 3 / 4;
-  border-radius: 4px;
+  border-radius: var(--r-chip);
   border: 1.5px dashed var(--keyline-strong);
   transition: transform 260ms var(--ease-out), opacity 260ms;
 }
 
 .token[data-state='racing'] {
   border-style: solid;
-  border-color: var(--foil-deep);
-  background: repeating-linear-gradient(135deg, #fbe7bc 0 4px, var(--card) 4px 8px);
+  border-color: var(--shell-hi);
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--shell-hi) 16%, var(--card)) 0 4px, var(--card) 4px 8px);
   animation: jostle 520ms ease-in-out infinite alternate;
 }
 

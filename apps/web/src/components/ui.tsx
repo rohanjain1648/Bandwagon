@@ -4,7 +4,7 @@ import { forwardRef, useId, type ButtonHTMLAttributes, type InputHTMLAttributes,
 import { Link, type LinkProps } from 'react-router-dom';
 import styles from './ui.module.css';
 
-type Variant = 'primary' | 'secondary' | 'quiet' | 'danger' | 'foil';
+type Variant = 'primary' | 'secondary' | 'quiet' | 'danger';
 type Size = 'md' | 'sm' | 'lg';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

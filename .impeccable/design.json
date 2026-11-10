@@ -1,0 +1,708 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T16:22:16+00:00",
+  "title": "Design System: Bandwagon",
+  "extensions": {
+    "colorMeta": {
+      "shell": {
+        "role": "primary",
+        "displayName": "Deep Ultramarine Shell",
+        "canonical": "#1f2a7a",
+        "oklch": "oklch(33.2% 0.135 270.9)",
+        "tonalRamp": [
+          "#090e2b",
+          "#1b254f",
+          "#2f3d77",
+          "#495caa",
+          "#6b81cf",
+          "#94a8e8",
+          "#bcccfe",
+          "#e1edff"
+        ]
+      },
+      "shell-deep": {
+        "role": "primary",
+        "displayName": "Shell Deep",
+        "canonical": "#172063",
+        "oklch": "oklch(28.5% 0.118 270.9)",
+        "tonalRamp": [
+          "#0a0f28",
+          "#1d264a",
+          "#313e70",
+          "#4c5ea1",
+          "#6f82c6",
+          "#97a8e0",
+          "#beccf8",
+          "#e3eeff"
+        ]
+      },
+      "shell-hi": {
+        "role": "primary",
+        "displayName": "Shell Highlight",
+        "canonical": "#2b3896",
+        "oklch": "oklch(39.2% 0.153 271.3)",
+        "tonalRamp": [
+          "#080d2e",
+          "#1a2354",
+          "#2e3b7e",
+          "#475ab3",
+          "#697fd8",
+          "#92a7f0",
+          "#bacbff",
+          "#e0edff"
+        ]
+      },
+      "on-shell": {
+        "role": "neutral",
+        "displayName": "On Shell",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#121212",
+          "#292929",
+          "#424242",
+          "#636363",
+          "#868686",
+          "#ababab",
+          "#cecece",
+          "#eeeeee"
+        ]
+      },
+      "on-shell-2": {
+        "role": "neutral",
+        "displayName": "On Shell Secondary",
+        "canonical": "#c9cff7",
+        "oklch": "oklch(86.3% 0.056 278.4)",
+        "tonalRamp": [
+          "#0f101c",
+          "#252739",
+          "#3d4058",
+          "#5c6181",
+          "#7f84a4",
+          "#a5a9c4",
+          "#c9cce2",
+          "#ebedfd"
+        ]
+      },
+      "table": {
+        "role": "neutral",
+        "displayName": "Binder-Grey Table",
+        "canonical": "#e9e6df",
+        "oklch": "oklch(92.5% 0.010 87.5)",
+        "tonalRamp": [
+          "#12110f",
+          "#2a2926",
+          "#44423e",
+          "#65635d",
+          "#888680",
+          "#adaba6",
+          "#cfcdca",
+          "#efeeec"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "#fcfbf8",
+        "oklch": "oklch(98.8% 0.004 91.4)",
+        "tonalRamp": [
+          "#121211",
+          "#292928",
+          "#434241",
+          "#646361",
+          "#878684",
+          "#ababa9",
+          "#cececc",
+          "#efeeed"
+        ]
+      },
+      "card-raised": {
+        "role": "neutral",
+        "displayName": "Bright Stock",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#121212",
+          "#292929",
+          "#424242",
+          "#636363",
+          "#868686",
+          "#ababab",
+          "#cecece",
+          "#eeeeee"
+        ]
+      },
+      "sunk": {
+        "role": "neutral",
+        "displayName": "Sunk",
+        "canonical": "#f2f0ea",
+        "oklch": "oklch(95.5% 0.008 91.5)",
+        "tonalRamp": [
+          "#121210",
+          "#2a2926",
+          "#43423f",
+          "#65635e",
+          "#888681",
+          "#acaba7",
+          "#cfceca",
+          "#efeeec"
+        ]
+      },
+      "keyline": {
+        "role": "neutral",
+        "displayName": "Keyline",
+        "canonical": "#d9d5cb",
+        "oklch": "oklch(87.3% 0.014 88.7)",
+        "tonalRamp": [
+          "#13110f",
+          "#2a2924",
+          "#45423c",
+          "#66635b",
+          "#89867e",
+          "#adaba4",
+          "#d0cdc8",
+          "#f0eeea"
+        ]
+      },
+      "keyline-strong": {
+        "role": "neutral",
+        "displayName": "Strong Keyline",
+        "canonical": "#928d80",
+        "oklch": "oklch(64.4% 0.020 89.4)",
+        "tonalRamp": [
+          "#13110d",
+          "#2b2922",
+          "#45423a",
+          "#676358",
+          "#8a867a",
+          "#aeaba1",
+          "#d0cdc6",
+          "#f0eee9"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#161a3a",
+        "oklch": "oklch(23.3% 0.061 275.3)",
+        "tonalRamp": [
+          "#0e111d",
+          "#24273b",
+          "#3b415b",
+          "#5a6184",
+          "#7c84a8",
+          "#a3a9c7",
+          "#c7cde4",
+          "#eaeeff"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#4a4f72",
+        "oklch": "oklch(43.8% 0.058 277.5)",
+        "tonalRamp": [
+          "#0f111d",
+          "#25273a",
+          "#3d4059",
+          "#5b6182",
+          "#7e84a6",
+          "#a4a9c5",
+          "#c8cce3",
+          "#eaedfe"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#5d6284",
+        "oklch": "oklch(50.5% 0.054 277.8)",
+        "tonalRamp": [
+          "#0f111c",
+          "#252739",
+          "#3d4058",
+          "#5c6180",
+          "#7f84a4",
+          "#a5a9c4",
+          "#c9cce1",
+          "#ebeefd"
+        ]
+      },
+      "danger": {
+        "role": "status",
+        "displayName": "Danger",
+        "canonical": "#b3261e",
+        "oklch": "oklch(50.1% 0.178 28.7)",
+        "tonalRamp": [
+          "#2b0000",
+          "#510805",
+          "#791913",
+          "#ad2f26",
+          "#d5594c",
+          "#f08a7d",
+          "#ffb6aa",
+          "#ffded5"
+        ]
+      },
+      "danger-tint": {
+        "role": "status",
+        "displayName": "Danger Tint",
+        "canonical": "#fbeceb",
+        "oklch": "oklch(95.5% 0.016 22.1)",
+        "tonalRamp": [
+          "#151010",
+          "#2d2727",
+          "#49403f",
+          "#6c605f",
+          "#8f8382",
+          "#b2a8a7",
+          "#d3cccb",
+          "#f3edec"
+        ]
+      },
+      "success": {
+        "role": "status",
+        "displayName": "Success",
+        "canonical": "#1d6b45",
+        "oklch": "oklch(47.1% 0.097 157.6)",
+        "tonalRamp": [
+          "#00170a",
+          "#0a311e",
+          "#1a4e33",
+          "#2f724f",
+          "#569672",
+          "#86b89a",
+          "#b2d9c1",
+          "#dbf7e5"
+        ]
+      },
+      "success-tint": {
+        "role": "status",
+        "displayName": "Success Tint",
+        "canonical": "#e7f4ec",
+        "oklch": "oklch(95.5% 0.017 159.1)",
+        "tonalRamp": [
+          "#0f1310",
+          "#252a27",
+          "#3d4540",
+          "#5c6660",
+          "#7f8983",
+          "#a5ada8",
+          "#c9d0cb",
+          "#ebf0ed"
+        ]
+      },
+      "warn": {
+        "role": "status",
+        "displayName": "Warn",
+        "canonical": "#8f5f00",
+        "oklch": "oklch(52.4% 0.111 74.7)",
+        "tonalRamp": [
+          "#1d0d00",
+          "#3b2300",
+          "#5b3b00",
+          "#855909",
+          "#a97d3c",
+          "#c8a473",
+          "#e5c9a3",
+          "#ffebd0"
+        ]
+      },
+      "warn-tint": {
+        "role": "status",
+        "displayName": "Warn Tint",
+        "canonical": "#fdf3dc",
+        "oklch": "oklch(96.6% 0.032 87.3)",
+        "tonalRamp": [
+          "#14110b",
+          "#2d281e",
+          "#484234",
+          "#6a6250",
+          "#8d8573",
+          "#b1aa9b",
+          "#d2cdc1",
+          "#f2eee5"
+        ]
+      },
+      "foil": {
+        "role": "secondary",
+        "displayName": "Amber Foil",
+        "canonical": "#f2b134",
+        "oklch": "oklch(80.2% 0.151 78.9)",
+        "tonalRamp": [
+          "#200c00",
+          "#3f2100",
+          "#613800",
+          "#8d5600",
+          "#b17a00",
+          "#cfa358",
+          "#ebc891",
+          "#ffebc4"
+        ]
+      },
+      "foil-deep": {
+        "role": "secondary",
+        "displayName": "Foil Deep",
+        "canonical": "#b97f0c",
+        "oklch": "oklch(64.0% 0.132 76.0)",
+        "tonalRamp": [
+          "#1f0c00",
+          "#3e2200",
+          "#5f3900",
+          "#8a5700",
+          "#ae7b23",
+          "#cda366",
+          "#e9c89a",
+          "#ffebca"
+        ]
+      },
+      "role-frontend": {
+        "role": "tertiary",
+        "displayName": "Brick Coral (frontend)",
+        "canonical": "#c23a22",
+        "oklch": "oklch(54.7% 0.177 32.4)",
+        "tonalRamp": [
+          "#2b0000",
+          "#500a01",
+          "#791b0b",
+          "#ac321c",
+          "#d45b44",
+          "#ef8c78",
+          "#ffb7a7",
+          "#ffdfd2"
+        ]
+      },
+      "role-backend": {
+        "role": "tertiary",
+        "displayName": "Deep Teal (backend)",
+        "canonical": "#0b7368",
+        "oklch": "oklch(50.0% 0.086 183.2)",
+        "tonalRamp": [
+          "#001713",
+          "#00312b",
+          "#0a4d46",
+          "#1d7268",
+          "#4a958b",
+          "#7fb8ae",
+          "#add8d1",
+          "#d7f6f0"
+        ]
+      },
+      "role-mobile": {
+        "role": "tertiary",
+        "displayName": "Violet (mobile)",
+        "canonical": "#5a3fc8",
+        "oklch": "oklch(48.3% 0.201 285.1)",
+        "tonalRamp": [
+          "#110635",
+          "#27195f",
+          "#3f2e8c",
+          "#5e49c6",
+          "#7e70ec",
+          "#a29cff",
+          "#c6c4ff",
+          "#e8e8ff"
+        ]
+      },
+      "role-design": {
+        "role": "tertiary",
+        "displayName": "Magenta (design)",
+        "canonical": "#ad2b6f",
+        "oklch": "oklch(51.3% 0.176 353.3)",
+        "tonalRamp": [
+          "#280014",
+          "#4b092d",
+          "#721948",
+          "#a42f6b",
+          "#cb588e",
+          "#e788b1",
+          "#ffb4d3",
+          "#ffddf2"
+        ]
+      },
+      "role-data": {
+        "role": "tertiary",
+        "displayName": "Ochre (data)",
+        "canonical": "#8f5f00",
+        "oklch": "oklch(52.4% 0.111 74.7)",
+        "tonalRamp": [
+          "#1d0d00",
+          "#3b2300",
+          "#5b3b00",
+          "#855909",
+          "#a97d3c",
+          "#c8a473",
+          "#e5c9a3",
+          "#ffebd0"
+        ]
+      },
+      "role-infra": {
+        "role": "tertiary",
+        "displayName": "Field Green (infra)",
+        "canonical": "#2f7322",
+        "oklch": "oklch(49.4% 0.134 140.7)",
+        "tonalRamp": [
+          "#021700",
+          "#0f3208",
+          "#204f18",
+          "#36742b",
+          "#5c9851",
+          "#8aba81",
+          "#b5daae",
+          "#ddf8d8"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One page title per route."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Team card names, empty-state and modal titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel titles, person card names."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Scores, seat initials, person plates (wdth 62, 900)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy, tabular figures on."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Pitches, bios, card meta."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, chips, badges, nav, form labels. Sentence case."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Invite codes and collector numbers only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift-1",
+        "value": "0 1px 0 rgba(22,26,58,0.04), 0 1px 2px rgba(22,26,58,0.06)",
+        "purpose": "Cards and panels at rest."
+      },
+      {
+        "name": "lift-2",
+        "value": "0 2px 4px rgba(22,26,58,0.06), 0 8px 20px -6px rgba(22,26,58,0.14)",
+        "purpose": "Card hover."
+      },
+      {
+        "name": "lift-3",
+        "value": "0 6px 12px rgba(22,26,58,0.08), 0 24px 48px -12px rgba(22,26,58,0.28)",
+        "purpose": "Dialogs and bottom sheets."
+      },
+      {
+        "name": "foil-ring",
+        "value": "0 0 0 2px var(--card), 0 0 0 4px var(--foil)",
+        "purpose": "Your seat; on the rail card the inner ring is shell."
+      },
+      {
+        "name": "focus-field",
+        "value": "0 0 0 3px color-mix(in srgb, var(--shell) 22%, transparent)",
+        "purpose": "Input focus ring with shell border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default for state transitions, dialogs, sheets."
+      },
+      {
+        "name": "ease-deal",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Ease-out-quint: a dealt card decelerates into its slot."
+      },
+      {
+        "name": "dur-fast",
+        "value": "140ms",
+        "purpose": "Hover, press, colour and border changes."
+      },
+      {
+        "name": "dur-deal",
+        "value": "420ms",
+        "purpose": "The deal and the claim entrance."
+      },
+      {
+        "name": "rejected",
+        "value": "650ms ease-out, shake then drop and fade",
+        "purpose": "A lost claim bounces out."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "deal/claim 200ms crossfade; rejection 400ms fade-out",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone-max",
+        "value": "767px"
+      },
+      {
+        "name": "rail",
+        "value": "768px"
+      },
+      {
+        "name": "team-split",
+        "value": "1000px"
+      },
+      {
+        "name": "aside",
+        "value": "1200px"
+      },
+      {
+        "name": "board-three-up",
+        "value": "1440px"
+      }
+    ],
+    "layout": {
+      "rail-w": "232px",
+      "aside-w": "340px",
+      "tabbar-h": "64px",
+      "gutter": "clamp(16px, 2.4vw, 32px)",
+      "page-max": "1320px",
+      "card-min": "236px"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action on a card or form (Join, Save). Shell fill.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Join</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1.5px solid transparent;border-radius:var(--r-control,9px);font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;font-weight:700;font-size:.875rem;line-height:1;cursor:pointer;transition:background-color 140ms cubic-bezier(.16,1,.3,1),border-color 140ms cubic-bezier(.16,1,.3,1),transform 140ms cubic-bezier(.16,1,.3,1)}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:2.5px solid var(--shell,#1f2a7a);outline-offset:2px}.ds-btn-primary{background:var(--shell,#1f2a7a);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 2px 6px -2px rgba(31,42,122,.55)}.ds-btn-primary:hover{background:var(--shell-hi,#2b3896)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Alternative action (Ask to join). Shell outline on bright stock.",
+      "html": "<button class=\"ds-btn2\">Ask to join</button>",
+      "css": ".ds-btn2{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--shell,#1f2a7a);border-radius:var(--r-control,9px);background:#fff;color:var(--shell,#1f2a7a);font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;font-weight:700;font-size:.875rem;line-height:1;cursor:pointer;transition:background-color 140ms}.ds-btn2:hover{background:#eef0fb}.ds-btn2:focus-visible{outline:2.5px solid var(--shell,#1f2a7a);outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labelled input: strong keyline border, shell ring on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">Team name</span><input class=\"ds-input\" placeholder=\"Loud Orchard\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;color:#161a3a}.ds-label{font-size:.875rem;font-weight:700}.ds-input{min-height:44px;padding:10px 12px;border:1.5px solid var(--keyline-strong,#928d80);border-radius:var(--r-control,9px);background:#fff;font:inherit;font-size:1rem;color:#161a3a;transition:border-color 140ms,box-shadow 140ms}.ds-input::placeholder{color:#5d6284}.ds-input:hover{border-color:#5d6284}.ds-input:focus-visible{outline:none;border-color:#1f2a7a;box-shadow:0 0 0 3px rgba(31,42,122,.22)}"
+    },
+    {
+      "name": "Skill Chips",
+      "kind": "chip",
+      "refersTo": "chip-skill",
+      "description": "Skill colour on a 7% tint; dashed when wanted; solid when lit by a filter.",
+      "html": "<span class=\"ds-chip\" style=\"--chip:#0b7368\">Node.js</span> <span class=\"ds-chip ds-chip-wanted\" style=\"--chip:#c23a22\">+ Next.js</span> <span class=\"ds-chip ds-chip-lit\" style=\"--chip:#5a3fc8\">Swift</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;height:26px;padding:0 8px;border-radius:var(--r-chip,5px);border:1.5px solid color-mix(in srgb,var(--chip) 38%,transparent);background:color-mix(in srgb,var(--chip) 7%,#fcfbf8);color:var(--chip);font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;font-size:.75rem;font-weight:700;white-space:nowrap}.ds-chip-wanted{border-style:dashed;background:transparent}.ds-chip-lit{background:var(--chip);border-color:var(--chip);color:#fff}"
+    },
+    {
+      "name": "Seat Slots",
+      "kind": "custom",
+      "refersTo": "seat-taken",
+      "description": "Signature hand of seats: taken (skill fill), yours (foil ring), claiming (hatch), open (dashed). Dealt in on ease-out-quint.",
+      "html": "<ul class=\"ds-seats\"><li class=\"ds-seat ds-taken ds-deal\" style=\"--fill:#c23a22\"><b>BP</b><small>Svelte</small></li><li class=\"ds-seat ds-taken ds-you\" style=\"--fill:#0b7368\"><b>FR</b><small>Java</small></li><li class=\"ds-seat ds-claiming\"><b>You</b><small>Claiming</small></li><li class=\"ds-seat ds-open\">Open</li></ul>",
+      "css": ".ds-seats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0;padding:6px;list-style:none;max-width:280px;font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif}.ds-seat{height:60px;border-radius:6px;display:flex;flex-direction:column;justify-content:space-between;padding:6px 7px 5px;overflow:hidden}.ds-seat b{font-variation-settings:'wdth' 62;font-weight:900;font-size:1.125rem;line-height:1}.ds-seat small{font-size:10.5px;font-weight:700}.ds-taken{background:var(--fill);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 1px 2px rgba(22,26,58,.18)}.ds-you{box-shadow:0 0 0 2px #fcfbf8,0 0 0 4px #f2b134}.ds-claiming{background:repeating-linear-gradient(135deg,#fbe7bc 0 6px,#fcfbf8 6px 12px);color:#161a3a;box-shadow:0 0 0 1.5px #b97f0c inset}.ds-open{border:1.5px dashed #928d80;align-items:center;justify-content:center;color:#5d6284;font-size:.75rem;font-weight:700}.ds-deal{animation:ds-deal 420ms cubic-bezier(.22,1,.36,1) both}@keyframes ds-deal{from{opacity:0;transform:translateY(-14px) rotate(-7deg) scale(.92)}}@media (prefers-reduced-motion:reduce){.ds-deal{animation:ds-fade 200ms ease both}@keyframes ds-fade{from{opacity:0}}}"
+    },
+    {
+      "name": "Team Card",
+      "kind": "card",
+      "refersTo": "card-team",
+      "description": "Card stock with keyline; condensed name, pitch, seats-left and mono collector number at the foot, action bottom right.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-meta\"><span class=\"ds-policy\">Approval</span><span>UTC+5:30</span></div><h3 class=\"ds-name\">Loud Orchard</h3><p class=\"ds-pitch\">Price tracker for textbooks across campuses.</p><footer class=\"ds-foot\"><span><span class=\"ds-left\">2 seats left</span><br><span class=\"ds-no\">No. 0401 / 2,000</span></span><button class=\"ds-join\">Join</button></footer></article>",
+      "css": ".ds-card{display:flex;flex-direction:column;gap:12px;max-width:260px;padding:16px;border-radius:14px;background:#fcfbf8;border:1px solid #d9d5cb;box-shadow:0 1px 0 rgba(22,26,58,.04),0 1px 2px rgba(22,26,58,.06);font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;color:#161a3a;transition:box-shadow 140ms cubic-bezier(.16,1,.3,1),border-color 140ms}.ds-card:hover{box-shadow:0 2px 4px rgba(22,26,58,.06),0 8px 20px -6px rgba(22,26,58,.14);border-color:#928d80}.ds-card:focus-within{border-color:#1f2a7a}.ds-meta{display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;color:#5d6284}.ds-policy{padding:1px 7px;border-radius:5px;background:#f2f0ea;color:#4a4f72}.ds-name{margin:0;font-size:1.75rem;line-height:.98;font-weight:800;font-variation-settings:'wdth' 68}.ds-pitch{margin:0;font-size:.875rem;line-height:1.4;color:#4a4f72}.ds-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-left{font-weight:800;font-size:.875rem;color:#4a4f72}.ds-no{font-family:'JetBrains Mono Variable','JetBrains Mono',ui-monospace,monospace;font-size:.75rem;color:#5d6284}.ds-join{min-height:36px;padding:0 12px;border:0;border-radius:9px;background:#1f2a7a;color:#fff;font:inherit;font-weight:700;font-size:.8125rem;cursor:pointer}.ds-join:hover{background:#2b3896}.ds-join:focus-visible{outline:2.5px solid #1f2a7a;outline-offset:2px}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Ultramarine rail; active link turns card stock; hot count in foil; foil focus ring on the shell.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-nav ds-active\" href=\"#\">Board <span class=\"ds-count\">1,755</span></a><a class=\"ds-nav\" href=\"#\">My team</a><a class=\"ds-nav\" href=\"#\">Requests <span class=\"ds-count ds-hot\">4</span></a></nav>",
+      "css": ".ds-rail{display:grid;gap:2px;width:232px;padding:16px;background:#1f2a7a;font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif}.ds-nav{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 12px;border-radius:9px;color:#c9cff7;font-weight:700;font-size:.875rem;text-decoration:none;transition:background-color 140ms,color 140ms}.ds-nav:hover{background:#2b3896;color:#fff}.ds-nav:focus-visible{outline:2.5px solid #f2b134;outline-offset:2px}.ds-active,.ds-active:hover{background:#fcfbf8;color:#1f2a7a}.ds-count{padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.14);font-size:.75rem;font-weight:800}.ds-active .ds-count{background:#e7e9f8}.ds-hot{background:#f2b134;color:#161a3a}"
+    },
+    {
+      "name": "Status Badges",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Pill badges, each tone on its own tint.",
+      "html": "<span class=\"ds-badge\">Full</span> <span class=\"ds-badge ds-ok\">Your team</span> <span class=\"ds-badge ds-shell\">Requested</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:999px;font-family:'Archivo Variable','Archivo',ui-sans-serif,system-ui,sans-serif;font-size:.75rem;font-weight:700;background:#f2f0ea;color:#4a4f72}.ds-ok{background:#e7f4ec;color:#1d6b45}.ds-shell{background:#e7e9f8;color:#1f2a7a}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Party Lineup",
+    "overview": "Every participant is a card with a stat block and every team is a hand of seats dealt live. The app is a card table: an ultramarine shell (rail, top bar, tab bar, primary actions) frames a warm binder-grey table, and on that table sit cream card-stock surfaces with a thin keyline. Six skill-type colours are the only saturated hues on card stock, and they appear only where a skill is shown: a chip, a filled seat, a person's plate. One amber foil marks you.\n\nThe register is Operate. People come here to complete a task in a land-grab moment, mostly on phones, often by keyboard. The world lends type, palette, density and one signature move (the deal); navigation, forms and dialogs stay standard web controls. Density is medium-high: the board fits a three-up grid of team cards plus a suggestions column at 1440px, and every card carries name, pitch, seats, skills, seats-left and an action without scrolling inside itself.\n\nSeat state is printed, not tinted. Open seats are dashed outlines, a pending claim is hatched, a taken seat is a filled mini-card, your seat has a foil edge, a full team takes a rotated stamp. Each mark reads in greyscale.",
+    "keyCharacteristics": [
+      "Ultramarine shell over a warm grey table; cream card stock with a 1px keyline.",
+      "Six skill-type colours, each 4.5:1 with white text and as text on card stock.",
+      "Amber foil is the \"you\" colour.",
+      "Archivo variable on its width axis: condensed heavy for names and numerals, normal width for UI.",
+      "Seat states as printed marks (outline, hatch, fill, foil edge, stamp).",
+      "One signature motion, the deal, decelerating on ease-out-quint, with a reduced-motion fallback."
+    ],
+    "rules": [
+      {
+        "name": "The Skill Code Rule",
+        "body": "The six skill-type colours mean a skill and nothing else. They appear on skill chips, filter toggles, filled seats and a person's plate. They never decorate headings, buttons or charts.",
+        "section": "colors"
+      },
+      {
+        "name": "The Foil Is You Rule",
+        "body": "On card stock, amber foil marks only the viewer: your card, your seat, your pending claim. On the shell it is the attention accent (focus ring, active tab, hot count, your invite code). It never marks another person or another team; the arena winner gets a shell keyline because the winner is not you.",
+        "section": "colors"
+      },
+      {
+        "name": "The Card Stock Rule",
+        "body": "Coloured text lives on card stock, never directly on the table ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Widths Rule",
+        "body": "Condensed is for names and numerals; everything you read or press is normal width.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Means Code Rule",
+        "body": "JetBrains Mono appears only on invite codes and collector numbers, never as a stylistic label face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Soft Table Rule",
+        "body": "Shadows are offset plus blur and ink-tinted. No hard offset shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** put skill colour only where a skill is shown, and always on card stock.",
+      "**Do** mark state with a printed mark (outline, hatch, fill, ring, stamp, pattern) and a text label, so it reads in greyscale.",
+      "**Do** keep every touch target at 44px or more and every control a standard web control.",
+      "**Do** use condensed Archivo (wdth 62 to 68) for names and numerals and normal width for everything else, with tabular figures.",
+      "**Do** use the foil ring for the viewer, and a shell treatment for anyone else who wins or leads.",
+      "**Do** pair every motion with a reduced-motion fallback that keeps the state change visible.",
+      "**Do** show focus with a 2.5px shell outline on light surfaces and a foil outline on the shell."
+    ],
+    "donts": [
+      "**Don't** set eyebrows or kickers above headings; collector numbers sit at the card foot or in a panel header.",
+      "**Don't** use gradient text.",
+      "**Don't** use amber foil to mark another person, another team, or decoration on card stock.",
+      "**Don't** communicate state by colour alone.",
+      "**Don't** use JetBrains Mono for anything but invite codes and collector numbers.",
+      "**Don't** use hard offset shadows or neutral-black shadows.",
+      "**Don't** reflow the inside of a card into columns; reflow whole cards."
+    ]
+  }
+}

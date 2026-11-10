@@ -34,6 +34,18 @@ export function SeatSlots({ members, maxSize, viewerId, claim, viewerName = 'You
 
   const open = Math.max(0, maxSize - members.length - (claim ? 1 : 0));
   const taken = members.length;
+  // monograms must tell seats apart: on a collision, fall back to the first two letters of the first name
+  const used = new Set<string>();
+  const monogram = new Map<string, string>();
+  for (const m of members) {
+    let mono = initials(m.displayName);
+    if (used.has(mono)) {
+      const first = [...(m.displayName.trim().split(/\s+/)[0] ?? '')].slice(0, 2).join('').toUpperCase();
+      if (first.length === 2 && !used.has(first)) mono = first;
+    }
+    used.add(mono);
+    monogram.set(m.id, mono);
+  }
   return (
     <ol className={styles.seats} data-size={size} aria-label={label ?? `${taken} of ${maxSize} seats taken`} style={{ ['--n' as string]: maxSize }}>
       {members.map((m, i) => {
@@ -49,7 +61,7 @@ export function SeatSlots({ members, maxSize, viewerId, claim, viewerName = 'You
             style={{ ['--fill' as string]: roleVar(role) }}
           >
             <span className={styles.face} aria-hidden>
-              <span className={styles.initials}>{initials(m.displayName)}</span>
+              <span className={styles.initials}>{monogram.get(m.id)}</span>
               {m.isLeader && <Crown className={styles.crown} size={size === 'lg' ? 14 : 11} strokeWidth={2.5} />}
             </span>
             {size === 'lg' ? (

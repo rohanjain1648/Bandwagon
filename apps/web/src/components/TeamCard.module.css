@@ -130,8 +130,9 @@
   color: var(--ink-2);
 }
 
+/* the last seat is stated plainly in the shell colour: no borrowed skill hue, no alarm */
 .left[data-urgent] {
-  color: var(--role-frontend);
+  color: var(--shell);
 }
 
 .stamp {
@@ -140,7 +141,7 @@
   right: 14px;
   padding: 2px 8px;
   border: 2px solid var(--ink-3);
-  border-radius: 4px;
+  border-radius: var(--r-chip);
   color: var(--ink-3);
   font-variation-settings: 'wdth' 62;
   font-weight: 900;

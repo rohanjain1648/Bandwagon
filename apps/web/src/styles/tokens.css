@@ -12,12 +12,12 @@
   --shell-hi: #2b3896;
   --on-shell: #ffffff;
   --on-shell-2: #c9cff7;
-  --table: #e8e9f1;
+  --table: #e9e6df; /* warm binder-grey table: red ≥ blue */
   --card: #fcfbf8;
   --card-raised: #ffffff;
-  --sunk: #f1f1f6;
-  --keyline: #d6d7e3;
-  --keyline-strong: #b9bbcf;
+  --sunk: #f2f0ea;
+  --keyline: #d9d5cb;
+  --keyline-strong: #928d80; /* 3.2:1 on card stock: input borders and open-seat outlines meet WCAG 1.4.11 */
 
   /* ink */
   --ink: #161a3a;

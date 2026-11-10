@@ -17,9 +17,11 @@ export interface TeamCardProps {
   highlight?: string[];
   onJoin?: () => void;
   onRequest?: () => void;
+  /** teams in the hackathon, for the collector number "No. 0412 / 2,000" */
+  of?: number;
 }
 
-export function TeamCard({ team, slug, action, viewerId, viewerName, claim, highlight = [], onJoin, onRequest }: TeamCardProps) {
+export function TeamCard({ team, slug, action, viewerId, viewerName, claim, highlight = [], onJoin, onRequest, of }: TeamCardProps) {
   const full = team.memberCount >= team.maxSize;
   const lit = new Set(highlight);
   const filtering = lit.size > 0;
@@ -31,7 +33,6 @@ export function TeamCard({ team, slug, action, viewerId, viewerName, claim, high
   return (
     <article className={styles.card} aria-labelledby={headingId} data-full={full ? '' : undefined} data-gone={team.removed ? '' : undefined}>
       <header className={styles.top}>
-        <span className={styles.number}>{teamNumber(team.number)}</span>
         <span className={styles.policy}>{team.joinPolicy === 'open' ? 'Open join' : 'Approval'}</span>
         <span className={styles.tz} title="Leader’s time zone">
           {utc(team.leaderOffsetMinutes)}
@@ -63,8 +64,14 @@ export function TeamCard({ team, slug, action, viewerId, viewerName, claim, high
       )}
 
       <footer className={styles.foot}>
-        <span className={styles.left} data-urgent={left === 1 && !team.rosterLocked ? '' : undefined}>
-          {team.removed ? 'Disbanded' : seatsLeftLabel(team.memberCount, team.maxSize, team.rosterLocked)}
+        <span className={styles.footInfo}>
+          <span className={styles.left} data-urgent={left === 1 && !team.rosterLocked ? '' : undefined}>
+            {team.removed ? 'Disbanded' : seatsLeftLabel(team.memberCount, team.maxSize, team.rosterLocked)}
+          </span>
+          <span className={`code ${styles.number}`}>
+            {teamNumber(team.number)}
+            {of ? ` / ${of.toLocaleString()}` : ''}
+          </span>
         </span>
         <CardButton action={team.removed ? 'gone' : full && action !== 'mine' ? 'full' : action} claim={claim} name={team.name} onJoin={onJoin} onRequest={onRequest} href={href} />
       </footer>

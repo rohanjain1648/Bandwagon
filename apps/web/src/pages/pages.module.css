@@ -59,7 +59,7 @@
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr));
   gap: var(--s-4);
   margin: 0;
   padding: 0;
@@ -198,7 +198,7 @@
 
   .selectRow {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .selectRow .compactSelect {

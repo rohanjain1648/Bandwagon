@@ -72,11 +72,11 @@ export function JoinByCodePage() {
         ) : preview.data ? (
           <>
             <header>
-              <p className={styles.muted}>
-                Invite code <span className="code">{formatInviteCode(code)}</span>, expires in {expiresIn(preview.data.expiresAt)}
-              </p>
               <h1 className={styles.title}>Join {preview.data.team.name}?</h1>
               {preview.data.team.description && <p className={styles.lede}>{preview.data.team.description}</p>}
+              <p className={styles.muted} style={{ marginTop: 'var(--s-3)' }}>
+                Invite code <span className="code">{formatInviteCode(code)}</span>, expires in {expiresIn(preview.data.expiresAt)}
+              </p>
             </header>
             <Panel title={`${teamNumber(preview.data.team.number)}: ${preview.data.team.memberCount} of ${preview.data.team.maxSize} seats taken`}>
               <SeatSlots members={preview.data.team.members} maxSize={preview.data.team.maxSize} claim={phase} viewerName={me.data.user.displayName} size="lg" />

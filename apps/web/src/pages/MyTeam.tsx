@@ -178,7 +178,6 @@ function TeamRoom({ team: t }: { team: TeamDetail }) {
     <div className={styles.page}>
       <header className={styles.head}>
         <div>
-          <p className={team.number}>{teamNumber(t.number)}</p>
           <h1 className={styles.title}>{t.name}</h1>
           {t.description && <p className={styles.lede}>{t.description}</p>}
         </div>
@@ -189,20 +188,31 @@ function TeamRoom({ team: t }: { team: TeamDetail }) {
         </div>
       </header>
 
-      <Panel title="The hand" action={<span className={styles.muted}>{t.memberCount} of {t.maxSize} seats</span>}>
+      <Panel
+        title="The hand"
+        action={
+          <span className={styles.muted}>
+            <span className="code">{teamNumber(t.number)}</span>, {t.memberCount} of {t.maxSize} seats
+          </span>
+        }
+      >
         <SeatSlots members={t.members} maxSize={t.maxSize} viewerId={me.user.id} size="lg" />
         <p className={styles.muted} style={{ marginTop: 'var(--s-3)' }}>
           {t.viewer.isLeader ? 'You lead this team.' : `${leaderName ?? 'The leader'} leads this team.`} Leadership passes to the longest-serving member if the leader leaves.
         </p>
       </Panel>
 
-      <div className={styles.twoUp}>
-        {t.viewer.isLeader && <InviteCard team={t} />}
-        {t.viewer.isLeader && <RequestInbox team={t} />}
-        <MemberList team={t} />
-        {t.viewer.isLeader && <TeamSettings team={t} />}
-        <ActivityLog teamId={t.id} />
-        <LeavePanel team={t} slug={hackathon.slug} />
+      <div className={team.layout}>
+        <div className={team.mainCol}>
+          {t.viewer.isLeader && <RequestInbox team={t} />}
+          <ActivityLog teamId={t.id} />
+        </div>
+        <div className={team.sideCol}>
+          {t.viewer.isLeader && <InviteCard team={t} />}
+          {t.viewer.isLeader && <MemberList team={t} />}
+          {t.viewer.isLeader && <TeamSettings team={t} />}
+          <LeavePanel team={t} slug={hackathon.slug} />
+        </div>
       </div>
     </div>
   );

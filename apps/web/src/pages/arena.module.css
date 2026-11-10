@@ -1,9 +1,8 @@
 .field {
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 44px));
-  justify-content: start;
-  gap: 6px;
-  margin: 0 0 var(--s-5);
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 5px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -57,27 +56,42 @@
 }
 
 .verdict {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--s-3);
   margin: 0;
-}
-
-.verdict div {
-  padding: var(--s-3) var(--s-4);
-  border-radius: 10px;
-  background: var(--sunk);
-}
-
-.verdict dt {
-  font-size: var(--t-13);
+  max-width: 62ch;
+  font-size: var(--t-16);
+  line-height: 1.5;
   color: var(--ink-2);
 }
 
-.verdict dd {
-  margin: 2px 0 0;
-  font-variation-settings: 'wdth' 62;
+.verdict strong {
+  color: var(--ink);
+  font-variation-settings: 'wdth' 70;
   font-weight: 900;
-  font-size: var(--t-36);
-  line-height: 1;
+  font-size: var(--t-18);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 1.6fr);
+  gap: var(--s-6);
+  align-items: start;
+  margin-bottom: var(--s-5);
+}
+
+@media (max-width: 760px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.handCol {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.caption {
+  margin-bottom: var(--s-2);
+  font-size: var(--t-13);
+  font-weight: 600;
+  color: var(--ink-3);
 }

@@ -65,11 +65,11 @@ export function TeamViewPage() {
   return (
     <div className={`${styles.page} ${styles.narrow}`}>
       <header>
-        <p className={team.number}>
-          {teamNumber(t.number)}, leader in {utc(t.leaderOffsetMinutes)}
-        </p>
         <h1 className={styles.title}>{t.name}</h1>
         {t.description && <p className={styles.lede}>{t.description}</p>}
+        <p className={team.facts}>
+          <span className="code">{teamNumber(t.number)}</span>, leader in {utc(t.leaderOffsetMinutes)}, {t.joinPolicy === 'open' ? 'open join' : 'approval required'}
+        </p>
       </header>
       <Panel title={seatsLeftLabel(t.memberCount, t.maxSize, t.rosterLocked)} action={action}>
         <SeatSlots members={t.members} maxSize={t.maxSize} viewerId={me.user.id} viewerName={me.user.displayName} claim={claims[t.id] ?? null} size="lg" />

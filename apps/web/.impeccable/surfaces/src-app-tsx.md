@@ -23,9 +23,15 @@ STORY: The visitor sees which teams still have seats, what each needs, and who f
 
 FIRST VIEWPORT: Desktop. A 232 px ultramarine rail with wordmark, hackathon, nav with counts, and your card at the bottom. The main column has a condensed "Looking for teammates" heading with a live dot and counts, then search plus Teams/People tabs, then skill chips, then a three-column grid of team cards (collector number, name, pitch, seat slots, seats left, primary action at bottom right). A 340 px right column holds "Good fits for you" with scored suggestions. Mobile: a header, a single card column, a bottom tab bar, and suggestions as their own tab.
 
-FORM: Party Lineup (trading cards and party-select screens), position 5 of the ordered list; seed: seed:cb0f58a7b46b8ef7. Signature interaction is "the deal": when a seat fills live, a mini-card deals into the empty slot and the seats-left count ticks. A lost race bounces your optimistic card back out with the reason, and a full hand takes a FULL stamp. Under reduced motion this becomes a crossfade.
+FORM: Party Lineup (trading cards and party-select screens), position 5 of the ordered list; seed:cb0f58a7b46b8ef7. Signature interaction is "the deal": when a seat fills live, a mini-card deals into the empty slot and the seats-left count ticks. A lost race bounces your optimistic card back out with the reason, and a full hand takes a FULL stamp. Under reduced motion this becomes a crossfade.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Recorded adaptations
+- Skill-type hues are darkened from the sketch so each passes 4.5:1 with white text and on card stock (WCAG 2.2 AA); coral reads brick, amber reads ochre.
+- The live indicator lives in the rail (desktop) and the top bar (phone) instead of beside the heading, so it is visible on every route.
+- Collector numbers sit at the card foot in mono as "No. 0401 / 2,000"; on the team page they ride in the hand panel header, never above a heading.
+- The board grid targets three columns at 1440 px with the aside open; below ~1200 px the aside drops under the grid.
 
 ## Unresolved
 - None blocking. The Race Arena visual (50 seat tokens resolving) inherits the deal motion.

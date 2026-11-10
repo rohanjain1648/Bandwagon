@@ -67,8 +67,9 @@ export async function suggestionRoutes(app: FastifyInstance) {
 
     const ranked: PersonSuggestion[] = candidates
       .map((c) => ({ person: toPerson(c), ...scoreCandidate(perspective, { skills: c.skills, window: toWindow(c) }) }))
-      .sort((a, b) => b.score - a.score || b.overlapHours - a.overlapHours || b.person.registeredAt.localeCompare(a.person.registeredAt))
-      .slice(0, limit);
+      .sort((a, b) => b.score - a.score || b.depth - a.depth || b.overlapHours - a.overlapHours || b.person.registeredAt.localeCompare(a.person.registeredAt))
+      .slice(0, limit)
+      .map(({ depth: _depth, ...rest }) => rest);
 
     return {
       perspective: { kind: perspective.subject === 'team' ? 'team' : 'solo', teamId, have: perspective.have, want: perspective.want, missingRoles },
@@ -109,12 +110,12 @@ export async function suggestionRoutes(app: FastifyInstance) {
           { skills: me.skills, window: toWindow(me) },
         ),
       }))
-      .sort((a, b) => b.score - a.score || b.overlapHours - a.overlapHours)
+      .sort((a, b) => b.score - a.score || b.depth - a.depth || b.overlapHours - a.overlapHours)
       .slice(0, limit);
     const snapshots = new Map((await getTeamSnapshots(sql, scored.map((s) => s.teamId))).map((t) => [t.id, t]));
     const items: TeamSuggestion[] = scored
       .filter((s) => snapshots.has(s.teamId))
-      .map(({ teamId, ...rest }) => ({ team: snapshots.get(teamId)!, ...rest }));
+      .map(({ teamId, depth: _depth, ...rest }) => ({ team: snapshots.get(teamId)!, ...rest }));
     return { scoring: SCORING, items };
   });
 }

@@ -1,6 +1,26 @@
-.number {
-  margin-bottom: var(--s-2);
-  font-weight: 800;
+/* main column (inbox, history) beside a side stack (code, members, settings) */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+
+.mainCol,
+.sideCol {
+  display: grid;
+  gap: var(--s-6);
+  min-width: 0;
+}
+
+@media (max-width: 999px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.facts {
+  margin-top: var(--s-3);
   font-size: var(--t-14);
   color: var(--ink-3);
 }

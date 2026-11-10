@@ -95,7 +95,7 @@ await axe('for-you');
 await page.getByRole('link', { name: /Race arena/ }).first().click();
 await settle();
 await page.getByRole('button', { name: 'Start the race' }).click();
-await page.waitForSelector('text=Invariant violations', { timeout: 20000 });
+await page.waitForSelector('text=invariant check found', { timeout: 20000 });
 await page.waitForTimeout(600);
 await shot('arena-desktop');
 await axe('arena');

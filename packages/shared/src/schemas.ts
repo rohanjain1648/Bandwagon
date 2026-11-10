@@ -383,4 +383,7 @@ export interface RaceResult {
   invariantViolations: number;
   durationMs: number;
   timeline: Array<{ bot: string; outcome: string; ms: number }>;
+  /** the hand right after the race (house bots + the winner) */
+  team: TeamSnapshot | null;
+  winnerId: string | null;
 }

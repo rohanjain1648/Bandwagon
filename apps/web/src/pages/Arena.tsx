@@ -1,4 +1,5 @@
-import type { RaceResult } from '@bw/shared';
+import type { MemberSnapshot, RaceResult } from '@bw/shared';
+import { SeatSlots } from '../components/SeatSlots';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShell } from '../components/Shell';
@@ -6,6 +7,16 @@ import { Button, ErrorNote, Panel } from '../components/ui';
 import { api, errorMessage, newKey } from '../lib/api';
 import styles from './pages.module.css';
 import arena from './arena.module.css';
+
+const HOUSE: MemberSnapshot[] = ['Ada Bot', 'Grace Bot', 'Linus Bot'].map((displayName, i) => ({
+  id: `house-${i}`,
+  displayName,
+  skills: ['typescript'],
+  timezone: 'UTC',
+  utcOffsetMinutes: 0,
+  isLeader: i === 0,
+  joinedAt: '',
+}));
 
 /**
  * Race Arena: fifty bots fire fifty concurrent join transactions at one open seat,
@@ -41,6 +52,10 @@ export function ArenaPage() {
   }
 
   const done = result && shown >= result.timeline.length;
+  // The hand: house bots first; the winner is dealt in once the replay finishes (the signature move).
+  const houseMembers = result?.team?.members.filter((m) => m.id !== result.winnerId) ?? HOUSE;
+  const winner = result?.team?.members.find((m) => m.id === result.winnerId);
+  const handMembers = done && winner ? [...houseMembers, winner] : houseMembers;
   return (
     <div className={`${styles.page} ${styles.narrow}`}>
       <header>
@@ -52,12 +67,19 @@ export function ArenaPage() {
       <Panel
         title={result ? result.teamName : 'One seat, fifty hands'}
         action={
-          <Button size="lg" variant="foil" busy={busy} onClick={() => void run()}>
+          <Button size="lg" busy={busy} onClick={() => void run()}>
             {result ? 'Race again' : 'Start the race'}
           </Button>
         }
       >
         {error && <ErrorNote>{error}</ErrorNote>}
+        <div className={arena.stage}>
+          <div className={arena.handCol}>
+            <p className={arena.caption}>{done ? 'The hand: the winner was dealt the last seat' : 'The hand: three seats taken, one open'}</p>
+            <SeatSlots members={handMembers} maxSize={4} label={done ? '4 of 4 seats taken' : '3 of 4 seats taken'} />
+          </div>
+          <div>
+            <p className={arena.caption}>Fifty join attempts, in the order the database resolved them</p>
         <ol className={arena.field} aria-label="Fifty join attempts">
           {Array.from({ length: 50 }, (_, i) => {
             const t = result?.timeline[i];
@@ -69,30 +91,18 @@ export function ArenaPage() {
             );
           })}
         </ol>
+          </div>
+        </div>
         <div aria-live="polite">
           {done && result && (
-            <dl className={arena.verdict}>
-              <div>
-                <dt>Got the seat</dt>
-                <dd>{result.winners}</dd>
-              </div>
-              <div>
-                <dt>Turned away (team full)</dt>
-                <dd>{result.outcomes.TEAM_FULL ?? 0}</dd>
-              </div>
-              <div>
-                <dt>Invariant violations</dt>
-                <dd>{result.invariantViolations}</dd>
-              </div>
-              <div>
-                <dt>All 50 resolved in</dt>
-                <dd>{result.durationMs} ms</dd>
-              </div>
-            </dl>
+            <p className={arena.verdict}>
+              <strong>{result.winners}</strong> got the seat, <strong>{result.outcomes.TEAM_FULL ?? 0}</strong> were turned away because the team was full, and the
+              invariant check found <strong>{result.invariantViolations}</strong> violations. All {result.attempts} attempts resolved in <strong>{result.durationMs} ms</strong>.
+            </p>
           )}
           {done && result && (
             <p className={styles.muted} style={{ marginTop: 'var(--s-3)' }}>
-              {result.winnerName} got the last seat. The team showed up on <Link to={`/h/${hackathon.slug}`}>the board</Link> for everyone and folds itself in a few seconds so the bots can race again.
+              {result.winnerName} was dealt the last seat. The team appeared on <Link to={`/h/${hackathon.slug}`}>the board</Link> for everyone and folds itself in a few seconds so the bots can race again.
             </p>
           )}
         </div>

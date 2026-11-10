@@ -258,6 +258,7 @@ function TeamsGrid({ params, highlight }: { params: URLSearchParams; highlight: 
               highlight={highlight}
               onJoin={() => claim({ teamId: t.id, teamName: t.name })}
               onRequest={() => setAsking(t)}
+              of={hackathon.stats.teams}
             />
           </li>
         ))}
@@ -358,6 +359,13 @@ function PeopleGrid({ params, highlight }: { params: URLSearchParams; highlight:
   );
 }
 
+/** One line that separates candidates whose top factor ties: what they add, plus shared hours. */
+function fitLine(s: { components: { key: string; reason: string }[]; overlapHours: number; matchedSkills: string[] }): string {
+  const complement = s.components.find((c) => c.key === 'complement')?.reason.replace(/\.$/, '') ?? '';
+  const hours = s.overlapHours > 0 ? `${Number.isInteger(s.overlapHours) ? s.overlapHours : s.overlapHours.toFixed(1)} h of shared working hours` : 'no shared working hours';
+  return `${complement}; ${hours}.`;
+}
+
 function GoodFits() {
   const { hackathon } = useShell();
   const onTeam = Boolean(hackathon.me?.teamId);
@@ -381,7 +389,7 @@ function GoodFits() {
                   </span>
                 </div>
                 <ScoreBreakdown score={s} compact />
-                <p className={styles.fitWhy}>{s.components[0]?.reason}</p>
+                <p className={styles.fitWhy}>{fitLine(s)}</p>
               </li>
             ))}
           {onTeam &&
@@ -394,7 +402,7 @@ function GoodFits() {
                   </span>
                 </div>
                 <ScoreBreakdown score={s} compact />
-                <p className={styles.fitWhy}>{s.components[0]?.reason}</p>
+                <p className={styles.fitWhy}>{fitLine(s)}</p>
               </li>
             ))}
         </ol>

@@ -2,6 +2,7 @@ import {
   ROLE_LABELS,
   ROLES,
   groupOverlapHours,
+  skillRole,
   rolesOf,
   skillLabel,
   type Role,
@@ -21,7 +22,7 @@ export const SCORING: ScoringExplainer = {
     'Complement: share of the skills your team asked for that this person brings (70%), plus new roles they add (30%). Bringing two roles nobody on the team covers earns that part in full. With no wanted skills listed, only new roles count.',
     `Time zone: hours of working-time overlap with the least-overlapping current member (a meeting needs everyone), capped at ${OVERLAP_CAP_HOURS} h.`,
     'Novelty: share of their skills your team does not already have, so a near-duplicate of an existing member ranks lower.',
-    'Ties go to more overlap, then to whoever registered most recently.',
+    'Ties go to whoever brings more of the missing skills, then more overlap, then whoever registered most recently.',
   ],
 };
 
@@ -59,7 +60,7 @@ const list = (ids: string[]) => {
 const roleList = (roles: Role[]) => roles.map((r) => ROLE_LABELS[r]).join(' and ');
 const hours = (h: number) => `${Number.isInteger(h) ? h : h.toFixed(1).replace(/\.0$/, '')} h`;
 
-export function scoreCandidate(p: Perspective, c: CandidateInput): ScoreBreakdown {
+export function scoreCandidate(p: Perspective, c: CandidateInput): ScoreBreakdown & { depth: number } {
   const have = new Set(p.have);
   const cand = [...new Set(c.skills)];
   const wantOpen = [...new Set(p.want)].filter((s) => !have.has(s));
@@ -79,13 +80,18 @@ export function scoreCandidate(p: Perspective, c: CandidateInput): ScoreBreakdow
   const shared = cand.filter((s) => have.has(s));
   const novelty = cand.length === 0 ? 0 : 1 - shared.length / cand.length;
 
+  // which of the candidate's skills deliver each new role, so tied candidates still read differently
+  const roleSkills = cand.filter((x) => newRoles.some((r) => skillRole(x) === r));
+  // one representative skill per new role, in role order, so every role named is backed by a skill shown
+  const perRole = newRoles.map((r) => cand.find((x) => skillRole(x) === r)).filter((x): x is string => Boolean(x));
+  const rolesWithSkills = newRoles.length ? `${roleList(newRoles)} (${list(perRole)})` : '';
   const ph = PHRASES[p.subject];
   const adds = p.subject === 'them' ? 'You add' : 'Adds';
   const complementReason =
     matched.length > 0
-      ? `${ph.brings} ${list(matched)}, which ${ph.asked}${newRoles.length ? `, and ${adds.toLowerCase()} ${roleList(newRoles)}` : ''}.`
+      ? `${ph.brings} ${list(matched)}, which ${ph.asked}${newRoles.length ? `, and ${adds.toLowerCase()} ${rolesWithSkills}` : ''}.`
       : newRoles.length > 0
-        ? `${adds} ${roleList(newRoles)}, which nobody on ${ph.group === 'you' ? 'your side' : ph.group} covers yet.`
+        ? `${adds} ${rolesWithSkills}, which nobody on ${ph.group === 'you' ? 'your side' : ph.group} covers yet.`
         : wantOpen.length > 0
           ? `None of the skills ${ph.asked} (${list(wantOpen.slice(0, 3))}).`
           : `Covers roles ${ph.group === 'you' ? 'you' : ph.group} already ${ph.group === 'you' ? 'have' : 'has'}.`;
@@ -110,6 +116,7 @@ export function scoreCandidate(p: Perspective, c: CandidateInput): ScoreBreakdow
     matchedSkills: matched,
     newRoles,
     overlapHours: Math.round(overlap * 100) / 100,
+    depth: matched.length + roleSkills.length,
   };
 }
 

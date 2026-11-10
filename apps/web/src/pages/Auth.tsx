@@ -94,7 +94,7 @@ export function LoginPage() {
       <div className={styles.demo}>
         <p className={styles.demoLead}>Trying it out? Skip sign-up and play a part.</p>
         <div className={styles.demoButtons}>
-          <Button variant="foil" size="lg" busy={busy === 'leader'} onClick={() => void demo('leader')}>
+          <Button size="lg" busy={busy === 'leader'} onClick={() => void demo('leader')}>
             Lead a team with one seat left
           </Button>
           <Button variant="secondary" size="lg" busy={busy === 'solo'} onClick={() => void demo('solo')}>

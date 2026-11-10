@@ -8,6 +8,7 @@ import { withTx } from '../../db/tx';
 import { AppError, fail, parse } from '../../lib/errors';
 import { enforce } from '../../lib/rateLimit';
 import { resolveHackathon } from '../hackathons/queries';
+import { getTeamSnapshots } from '../teams/queries';
 import { claimSeat, createTeam, lockTeam, releaseSeat } from '../teams/service';
 
 const RaceBody = z
@@ -129,6 +130,7 @@ export async function demoRoutes(app: FastifyInstance) {
       const violations = await sql`SELECT * FROM bw_check_invariants() WHERE team_id = ${teamId}`;
       const [winner] = await sql<{ user_id: string }[]>`
         SELECT user_id FROM participants WHERE team_id = ${teamId} ORDER BY team_joined_at DESC LIMIT 1`;
+      const [snapshot] = await getTeamSnapshots(sql, [teamId]);
       const outcomes: Record<string, number> = {};
       for (const t of timeline) outcomes[t.outcome] = (outcomes[t.outcome] ?? 0) + 1;
 
@@ -145,6 +147,8 @@ export async function demoRoutes(app: FastifyInstance) {
         invariantViolations: violations.length,
         durationMs,
         timeline: timeline.sort((a, b) => a.ms - b.ms),
+        team: snapshot ?? null,
+        winnerId: winner?.user_id ?? null,
       };
     } finally {
       await raceSql.end({ timeout: 5 });

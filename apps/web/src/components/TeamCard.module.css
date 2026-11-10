@@ -1,0 +1,142 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+  padding: var(--s-4);
+  border-radius: var(--r-card);
+  background: var(--card);
+  border: 1px solid var(--keyline);
+  box-shadow: var(--lift-1);
+  transition: box-shadow var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+}
+
+.card:hover {
+  box-shadow: var(--lift-2);
+  border-color: var(--keyline-strong);
+}
+
+.card:focus-within {
+  border-color: var(--shell);
+}
+
+.card[data-gone] {
+  opacity: 0.55;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--t-12);
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.number {
+  font-weight: 800;
+  color: var(--ink-2);
+}
+
+.policy {
+  padding: 1px 7px;
+  border-radius: var(--r-chip);
+  background: var(--sunk);
+  color: var(--ink-2);
+}
+
+.tz {
+  margin-left: auto;
+}
+
+.name {
+  font-size: var(--t-28);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.link {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* the whole card is the hit area for the heading link, buttons stay on top */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-card);
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  outline: 2.5px solid var(--shell);
+  outline-offset: 2px;
+}
+
+.link:hover {
+  color: var(--shell);
+}
+
+.pitch {
+  color: var(--ink-2);
+  font-size: var(--t-14);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-top: var(--s-1);
+}
+
+.foot > :last-child {
+  position: relative;
+  z-index: 1;
+}
+
+.left {
+  font-weight: 800;
+  font-size: var(--t-14);
+  color: var(--ink-2);
+}
+
+.left[data-urgent] {
+  color: var(--role-frontend);
+}
+
+.stamp {
+  position: absolute;
+  top: 46px;
+  right: 14px;
+  padding: 2px 8px;
+  border: 2px solid var(--ink-3);
+  border-radius: 4px;
+  color: var(--ink-3);
+  font-variation-settings: 'wdth' 62;
+  font-weight: 900;
+  font-size: var(--t-13);
+  transform: rotate(-7deg);
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  pointer-events: none;
+}

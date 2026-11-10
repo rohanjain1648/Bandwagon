@@ -1,0 +1,82 @@
+.field {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0 0 var(--s-5);
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 480px) {
+  .field {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.token {
+  aspect-ratio: 3 / 4;
+  border-radius: 4px;
+  border: 1.5px dashed var(--keyline-strong);
+  transition: transform 260ms var(--ease-out), opacity 260ms;
+}
+
+.token[data-state='racing'] {
+  border-style: solid;
+  border-color: var(--foil-deep);
+  background: repeating-linear-gradient(135deg, #fbe7bc 0 4px, var(--card) 4px 8px);
+  animation: jostle 520ms ease-in-out infinite alternate;
+}
+
+.token[data-state='lost'] {
+  border: 1.5px solid var(--keyline);
+  background: var(--sunk) linear-gradient(to top right, transparent calc(50% - 1px), var(--ink-3) calc(50% - 1px), var(--ink-3) calc(50% + 1px), transparent calc(50% + 1px));
+  opacity: 0.55;
+  transform: translateY(3px);
+}
+
+.token[data-state='won'] {
+  border: 0;
+  background: var(--shell);
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--foil);
+  transform: translateY(-4px) scale(1.06);
+  animation: deal 420ms var(--ease-deal) both;
+}
+
+@keyframes jostle {
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes deal {
+  from {
+    transform: translateY(-16px) rotate(-8deg) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.verdict {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--s-3);
+  margin: 0;
+}
+
+.verdict div {
+  padding: var(--s-3) var(--s-4);
+  border-radius: 10px;
+  background: var(--sunk);
+}
+
+.verdict dt {
+  font-size: var(--t-13);
+  color: var(--ink-2);
+}
+
+.verdict dd {
+  margin: 2px 0 0;
+  font-variation-settings: 'wdth' 62;
+  font-weight: 900;
+  font-size: var(--t-36);
+  line-height: 1;
+}

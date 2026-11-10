@@ -1,0 +1,410 @@
+.page {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  gap: var(--s-6);
+}
+
+.narrow {
+  max-width: 880px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.title {
+  font-size: var(--t-display);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.lede {
+  margin-top: var(--s-3);
+  max-width: 62ch;
+  color: var(--ink-2);
+  font-size: var(--t-16);
+}
+
+.lede strong {
+  color: var(--ink);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  gap: var(--s-6);
+  align-items: start;
+}
+
+@media (max-width: 1199px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.stack {
+  display: grid;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards > li {
+  display: grid;
+  min-width: 0;
+}
+
+.toolbar {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.toolRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+}
+
+.toolRow > .grow {
+  flex: 1 1 260px;
+}
+
+.searchWrap {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.searchWrap input {
+  padding-left: 38px;
+}
+
+.tabs {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--keyline);
+}
+
+.tab {
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font-weight: 700;
+  font-size: var(--t-14);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.tab[data-state='active'] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.tab:hover:not([data-state='active']) {
+  background: var(--sunk);
+}
+
+.filterSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--r-chip);
+  border: 1.5px solid color-mix(in srgb, var(--chip, var(--ink-3)) 40%, transparent);
+  background: var(--card);
+  color: var(--chip, var(--ink-2));
+  font-size: var(--t-13);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle[aria-pressed='true'] {
+  background: var(--chip, var(--ink));
+  border-color: var(--chip, var(--ink));
+  color: #fff;
+}
+
+.compactSelect {
+  width: auto;
+  min-width: 0;
+}
+
+.more {
+  position: relative;
+}
+
+.more summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.more summary::-webkit-details-marker {
+  display: none;
+}
+
+.morePanel {
+  margin-top: var(--s-2);
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-card);
+  background: var(--card);
+  border: 1px solid var(--keyline);
+}
+
+.roleGroup {
+  display: grid;
+  gap: 6px;
+}
+
+.roleName {
+  font-size: var(--t-12);
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.resultLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-size: var(--t-14);
+  color: var(--ink-2);
+}
+
+.newPill {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border-radius: var(--r-pill);
+  border: 0;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--t-14);
+  box-shadow: var(--lift-2);
+  cursor: pointer;
+  animation: drop 300ms var(--ease-out);
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.loadMore {
+  justify-self: center;
+}
+
+.aside {
+  position: sticky;
+  top: var(--s-6);
+  display: grid;
+  gap: var(--s-3);
+}
+
+@media (max-width: 1199px) {
+  .aside {
+    position: static;
+  }
+}
+
+.fitList {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fit {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-3) var(--s-3) var(--s-4);
+  border-radius: 12px;
+  background: var(--card-raised);
+  border: 1px solid var(--keyline);
+}
+
+.fitTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.fitName {
+  font-size: var(--t-18);
+  font-variation-settings: 'wdth' 70;
+  font-weight: 800;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+a.fitName:hover {
+  color: var(--shell);
+  text-decoration: underline;
+}
+
+.fitScore {
+  font-variation-settings: 'wdth' 62;
+  font-weight: 900;
+  font-size: var(--t-28);
+  color: var(--shell);
+  line-height: 1;
+}
+
+.fitWhy {
+  font-size: var(--t-13);
+  color: var(--ink-2);
+}
+
+.muted {
+  color: var(--ink-3);
+  font-size: var(--t-14);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+}
+
+.formGrid {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.twoUp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.skillPicker {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.skillPicker legend {
+  font-size: var(--t-14);
+  font-weight: 700;
+  margin-bottom: var(--s-2);
+  padding: 0;
+}
+
+.pickRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pick {
+  position: relative;
+}
+
+.pick input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.pick span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--r-chip);
+  border: 1.5px solid color-mix(in srgb, var(--chip) 40%, transparent);
+  background: var(--card-raised);
+  color: var(--chip);
+  font-size: var(--t-13);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pick input:checked + span {
+  background: var(--chip);
+  border-color: var(--chip);
+  color: #fff;
+}
+
+.pick input:focus-visible + span {
+  outline: 2.5px solid var(--shell);
+  outline-offset: 2px;
+}
+
+.pick input:disabled + span {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--s-2) var(--s-4);
+  margin: 0;
+  font-size: var(--t-14);
+}
+
+.dl dt {
+  color: var(--ink-3);
+}
+
+.dl dd {
+  margin: 0;
+  font-weight: 700;
+}

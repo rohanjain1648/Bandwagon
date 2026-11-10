@@ -1,0 +1,92 @@
+.wrap {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.headline {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.score {
+  font-variation-settings: 'wdth' 62;
+  font-weight: 900;
+  font-size: var(--t-36);
+  line-height: 0.9;
+  color: var(--shell);
+}
+
+.of {
+  font-size: var(--t-13);
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.bar {
+  display: flex;
+  height: 8px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--sunk);
+  box-shadow: inset 0 0 0 1px var(--keyline);
+}
+
+.seg {
+  display: block;
+  height: 100%;
+}
+
+/* patterns as well as colour, so the parts read in greyscale */
+.seg[data-key='timezone'],
+.swatch[data-key='timezone'] {
+  background-image: repeating-linear-gradient(90deg, transparent 0 3px, rgba(255, 255, 255, 0.35) 3px 4px) !important;
+}
+
+.seg[data-key='novelty'],
+.swatch[data-key='novelty'] {
+  background-image: repeating-linear-gradient(135deg, transparent 0 3px, rgba(255, 255, 255, 0.4) 3px 5px) !important;
+}
+
+.parts {
+  display: grid;
+  gap: var(--s-2);
+  margin: var(--s-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.parts li {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  column-gap: var(--s-2);
+  row-gap: 1px;
+  align-items: center;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.partLabel {
+  font-size: var(--t-13);
+  font-weight: 700;
+}
+
+.points {
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.reason {
+  grid-column: 2;
+  font-size: var(--t-13);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.wrap[data-compact] .score {
+  font-size: var(--t-28);
+}

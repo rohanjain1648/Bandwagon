@@ -89,7 +89,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, overrides: Part
     webDist: e.WEB_DIST ?? null,
     coalesceMs: e.COALESCE_MS,
     heartbeatMs: e.HEARTBEAT_MS,
-    cookieSecure: e.NODE_ENV === 'production',
+    // Secure cookies, HSTS and upgrade-insecure-requests only when actually served over HTTPS
+    cookieSecure: e.APP_ORIGIN ? e.APP_ORIGIN.startsWith('https://') : e.NODE_ENV === 'production',
   };
   return { ...base, ...overrides, limits: { ...base.limits, ...(overrides.limits ?? {}) } };
 }

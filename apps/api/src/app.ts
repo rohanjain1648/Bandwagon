@@ -85,10 +85,10 @@ export async function buildApp(config: Config, deps: AppDeps = {}): Promise<Fast
         baseUri: ["'self'"],
         formAction: ["'self'"],
         objectSrc: ["'none'"],
-        upgradeInsecureRequests: config.env === 'production' ? [] : null,
+        upgradeInsecureRequests: config.cookieSecure ? [] : null,
       },
     },
-    hsts: config.env === 'production' ? { maxAge: 15552000, includeSubDomains: true } : false,
+    hsts: config.cookieSecure ? { maxAge: 15552000, includeSubDomains: true } : false,
     crossOriginEmbedderPolicy: false,
   });
   // Fast levels: the default brotli quality (11) costs several ms of CPU per board page.

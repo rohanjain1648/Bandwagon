@@ -1,0 +1,51 @@
+# One command: `docker compose up --build` → http://localhost:8080
+# (first boot seeds 10,000 users and 2,000 teams; demo login buttons are on the sign-in page)
+#
+# Load test:  docker compose --profile loadtest run --rm k6
+# Chaos test: run `pnpm chaos` from the host against the same database (see README)
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bandwagon
+    command: ["postgres", "-c", "max_connections=300"]
+    ports:
+      - "54329:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bandwagon"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/bandwagon
+      SESSION_SECRET: local-compose-secret-change-me-in-production-0123456789
+      APP_ORIGIN: http://localhost:8080
+      DEMO_MODE: "true"
+      SEED_IF_EMPTY: "true"
+      LOG_LEVEL: info
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  k6:
+    image: grafana/k6:2.3.0
+    profiles: ["loadtest"]
+    depends_on:
+      - app
+    environment:
+      BASE_URL: http://app:8080
+      SUMMARY_OUT: /scripts/out/summary-compose.json
+    volumes:
+      - ./loadtest:/scripts
+    command: ["run", "/scripts/board.k6.js"]
+
+volumes:
+  pgdata:

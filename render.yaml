@@ -1,0 +1,28 @@
+# Render Blueprint: New → Blueprint → pick this repo. Paste your Neon connection
+# strings when prompted (pooled for DATABASE_URL, direct for DATABASE_URL_UNPOOLED,
+# which LISTEN/NOTIFY needs). First boot migrates and seeds the demo data.
+services:
+  - type: web
+    name: bandwagon
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
+      - key: APP_ORIGIN
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DEMO_MODE
+        value: "true"
+      - key: SEED_IF_EMPTY
+        value: "true"
+      - key: DB_POOL_MAX
+        value: "10"
+      - key: LOG_LEVEL
+        value: info

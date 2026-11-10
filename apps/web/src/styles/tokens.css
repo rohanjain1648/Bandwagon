@@ -1,0 +1,98 @@
+/*
+ * Bandwagon: "Party Lineup". Participants are cards with a stat block; a team is a
+ * hand of seats that gets dealt live. Ultramarine shell over a binder-grey table, card
+ * stock with a keyline, six skill-type colours used only where a skill is shown, and an
+ * amber foil edge for your own card. Archivo (condensed black for names and numerals,
+ * normal width for UI). Seat states are printed marks that read without colour.
+ */
+:root {
+  /* ground & surfaces */
+  --shell: #1f2a7a;
+  --shell-deep: #172063;
+  --shell-hi: #2b3896;
+  --on-shell: #ffffff;
+  --on-shell-2: #c9cff7;
+  --table: #e8e9f1;
+  --card: #fcfbf8;
+  --card-raised: #ffffff;
+  --sunk: #f1f1f6;
+  --keyline: #d6d7e3;
+  --keyline-strong: #b9bbcf;
+
+  /* ink */
+  --ink: #161a3a;
+  --ink-2: #4a4f72;
+  --ink-3: #5d6284;
+
+  /* states */
+  --danger: #b3261e;
+  --danger-tint: #fbeceb;
+  --success: #1d6b45;
+  --success-tint: #e7f4ec;
+  --warn: #8f5f00;
+  --warn-tint: #fdf3dc;
+  --foil: #f2b134;
+  --foil-deep: #b97f0c;
+
+  /* skill types (each passes 4.5:1 with white text and as text on card stock) */
+  --role-frontend: #c23a22;
+  --role-backend: #0b7368;
+  --role-mobile: #5a3fc8;
+  --role-design: #ad2b6f;
+  --role-data: #8f5f00;
+  --role-infra: #2f7322;
+
+  /* type */
+  --font: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-code: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+  --wdth-condensed: 68;
+  --wdth-ui: 100;
+
+  --t-12: 0.75rem;
+  --t-13: 0.8125rem;
+  --t-14: 0.875rem;
+  --t-16: 1rem;
+  --t-18: 1.125rem;
+  --t-22: 1.375rem;
+  --t-28: 1.75rem;
+  --t-36: 2.25rem;
+  --t-display: clamp(2.25rem, 1.4rem + 2.6vw, 3.25rem);
+
+  /* space (4px base) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+
+  /* shape: sharp for chips & seats, softer for cards, pill only for status */
+  --r-seat: 6px;
+  --r-chip: 5px;
+  --r-control: 9px;
+  --r-card: 14px;
+  --r-sheet: 18px;
+  --r-pill: 999px;
+
+  /* depth: offset + blur, tinted from the shell */
+  --lift-1: 0 1px 0 rgba(22, 26, 58, 0.04), 0 1px 2px rgba(22, 26, 58, 0.06);
+  --lift-2: 0 2px 4px rgba(22, 26, 58, 0.06), 0 8px 20px -6px rgba(22, 26, 58, 0.14);
+  --lift-3: 0 6px 12px rgba(22, 26, 58, 0.08), 0 24px 48px -12px rgba(22, 26, 58, 0.28);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-deal: cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  --dur-fast: 140ms;
+  --dur-deal: 420ms;
+
+  /* layout */
+  --rail-w: 232px;
+  --aside-w: 340px;
+  --tabbar-h: 64px;
+  --gutter: clamp(16px, 2.4vw, 32px);
+
+  color-scheme: light;
+}

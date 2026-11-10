@@ -1,0 +1,180 @@
+.seats {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seat {
+  position: relative;
+  min-width: 0;
+  height: 60px;
+  border-radius: var(--r-seat);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px 7px 5px;
+  overflow: hidden;
+}
+
+/* taken: a mini-card in the member's skill-type colour */
+.seat[data-state='taken'] {
+  background: var(--fill);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), 0 1px 2px rgba(22, 26, 58, 0.18);
+}
+
+/* yours: foil edge */
+.seat[data-you] {
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--foil);
+}
+
+/* open: printed outline */
+.seat[data-state='open'] {
+  border: 1.5px dashed var(--keyline-strong);
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+}
+
+.openMark {
+  font-size: var(--t-12);
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+/* claiming: hatched with a foil edge, while the server referees */
+.seat[data-state='claiming'] {
+  background: repeating-linear-gradient(135deg, #fbe7bc 0 6px, var(--card) 6px 12px);
+  color: var(--ink);
+  box-shadow: 0 0 0 1.5px var(--foil-deep) inset;
+  animation: deal var(--dur-deal) var(--ease-deal) both;
+}
+
+.seat[data-phase='bounced'] {
+  animation: bounce 650ms var(--ease-out) forwards;
+}
+
+.face {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.initials {
+  font-variation-settings: 'wdth' 62;
+  font-weight: 900;
+  font-size: var(--t-18);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.crown {
+  flex: none;
+  opacity: 0.95;
+}
+
+.tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.92;
+}
+
+/* the deal: a card arrives from the deck into its slot */
+.seat[data-dealt] {
+  animation: deal var(--dur-deal) var(--ease-deal) both;
+}
+
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) rotate(-7deg) scale(0.92);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: none;
+  }
+  18% {
+    transform: translateX(-4px) rotate(-2deg);
+  }
+  36% {
+    transform: translateX(4px) rotate(2deg);
+  }
+  55% {
+    transform: translateX(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(18px) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+/* large: the team page hand */
+.seats[data-size='lg'] {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s-3);
+}
+
+.seats[data-size='lg'] .seat {
+  height: auto;
+  min-height: 128px;
+  padding: var(--s-3);
+  gap: var(--s-3);
+  border-radius: 10px;
+}
+
+.seats[data-size='lg'] .initials {
+  font-size: var(--t-28);
+}
+
+.seats[data-size='lg'] .seat[data-state='open'] .openMark {
+  font-size: var(--t-14);
+}
+
+.detail {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 800;
+  font-size: var(--t-14);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  font-size: var(--t-12);
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seat[data-dealt],
+  .seat[data-state='claiming'] {
+    animation: fade 200ms ease both;
+  }
+  .seat[data-phase='bounced'] {
+    animation: fadeout 400ms ease forwards;
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes fadeout {
+    to {
+      opacity: 0;
+    }
+  }
+}

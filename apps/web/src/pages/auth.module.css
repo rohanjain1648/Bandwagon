@@ -1,0 +1,154 @@
+.split {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(320px, 5fr) 7fr;
+}
+
+.story {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-8);
+  padding: var(--s-8) clamp(24px, 4vw, 56px);
+  background: var(--shell);
+  color: var(--on-shell);
+  overflow: hidden;
+}
+
+.storyBody {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 460px;
+}
+
+.storyTitle {
+  font-variation-settings: 'wdth' 64;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 1.4rem + 2.6vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.hand {
+  padding: var(--s-4);
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow: var(--lift-3);
+  transform: rotate(-2deg);
+  max-width: 360px;
+}
+
+.points {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding-left: 1.1em;
+  color: var(--on-shell-2);
+}
+
+.points li::marker {
+  color: var(--foil);
+}
+
+.event {
+  font-size: var(--t-13);
+  color: var(--on-shell-2);
+}
+
+.formSide {
+  display: grid;
+  place-items: center;
+  padding: var(--s-8) var(--gutter);
+}
+
+.formInner {
+  width: min(460px, 100%);
+  display: grid;
+  gap: var(--s-6);
+}
+
+.title {
+  font-size: var(--t-display);
+}
+
+.title:focus {
+  outline: none;
+}
+
+.demo {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-radius: var(--r-card);
+  background: var(--card);
+  border: 1px solid var(--keyline);
+  box-shadow: var(--lift-1);
+}
+
+.demoLead {
+  font-weight: 700;
+}
+
+.demoButtons {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.hint {
+  font-size: var(--t-13);
+  color: var(--ink-3);
+}
+
+.switch {
+  font-size: var(--t-14);
+  color: var(--ink-2);
+}
+
+.fieldError {
+  margin-top: calc(-1 * var(--s-2));
+  font-size: var(--t-13);
+  font-weight: 600;
+  color: var(--danger);
+}
+
+/* join-by-code screen (signed in, outside the shell) */
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  align-content: start;
+  gap: var(--s-6);
+  padding: var(--s-6) var(--gutter) var(--s-12);
+}
+
+.brandRow {
+  max-width: 880px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 899px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .story {
+    gap: var(--s-5);
+    padding: var(--s-6) var(--s-4);
+  }
+
+  .points,
+  .event {
+    display: none;
+  }
+
+  .hand {
+    max-width: 300px;
+  }
+
+  .formSide {
+    place-items: start center;
+    padding: var(--s-6) var(--s-4) var(--s-10);
+  }
+}

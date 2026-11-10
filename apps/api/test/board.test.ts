@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { getTeamSnapshots } from '../src/modules/teams/queries';
 import type { HackathonRow } from './helpers/db';
 import { makeHackathon, makeTeam, makeUser, makeUsers, startTestServer, type TestServer } from './helpers/server';
 
@@ -83,6 +84,14 @@ describe('board', () => {
       expect(new Set(seen).size).toBe(7);
       expect([...seen].sort()).toEqual([...made].sort());
     }
+  });
+
+  it('contract: the SQL-built board card is byte-for-byte the TeamSnapshot the rest of the API uses', async () => {
+    const { team } = await makeTeam(t, h, { members: 1, lookingFor: ['go', 'figma'], name: 'Contract Crew' });
+    const card = (await board('?q=contract')).body.items[0];
+    const [snapshot] = await getTeamSnapshots(t.sql, [team.id]);
+    expect(card).toEqual(snapshot);
+    expect(Object.keys(card)).toEqual(Object.keys(snapshot!));
   });
 
   it('rejects out-of-range limits and garbage cursors', async () => {

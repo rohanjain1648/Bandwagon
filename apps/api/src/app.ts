@@ -8,6 +8,7 @@ import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
 import { randomUUID } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import zlib from 'node:zlib';
 import { ZodError } from 'zod';
 import type { Config } from './config';
 import { createSql, type Sql } from './db/pool';
@@ -34,6 +35,8 @@ const CONSTRAINT_ERRORS = {
   users_email_key: 'EMAIL_TAKEN',
   join_requests_one_pending: 'ALREADY_REQUESTED',
   invite_uses_within_limit: 'CODE_EXPIRED',
+  join_requests_team_fk: 'TEAM_NOT_FOUND',
+  participants_team_fk: 'TEAM_NOT_FOUND',
 } as const;
 
 export interface AppDeps {
@@ -88,7 +91,14 @@ export async function buildApp(config: Config, deps: AppDeps = {}): Promise<Fast
     hsts: config.env === 'production' ? { maxAge: 15552000, includeSubDomains: true } : false,
     crossOriginEmbedderPolicy: false,
   });
-  await app.register(compress, { global: true, threshold: 1024, encodings: ['br', 'gzip'] });
+  // Fast levels: the default brotli quality (11) costs several ms of CPU per board page.
+  await app.register(compress, {
+    global: true,
+    threshold: 1024,
+    encodings: ['br', 'gzip'],
+    brotliOptions: { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 4 } },
+    zlibOptions: { level: 4 },
+  });
 
   // Coarse per-user (or per-IP) limiter for everything; sensitive routes add Postgres-backed limits.
   await app.register(rateLimit, {

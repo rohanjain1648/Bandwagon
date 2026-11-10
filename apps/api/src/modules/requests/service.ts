@@ -24,11 +24,16 @@ async function getRequest(db: Db, id: string): Promise<RequestRow> {
 
 export async function createRequest(ctx: CommandCtx, teamId: string, message: string): Promise<string> {
   const { tx, userId } = ctx;
+  // Global lock order, team first. A SHARE lock is enough: it keeps the team from being
+  // deleted or changed until we commit (found by the chaos test: without it, a team whose
+  // last member left mid-request made the insert trip its FK), while concurrent requesters
+  // to the same team don't block each other.
   const [team] = await tx<{ id: string; hackathon_id: string; name: string; leader_id: string; member_count: number; max_size: number; roster_locked: boolean; formation_closes_at: Date | null }[]>`
     SELECT t.id, t.hackathon_id, t.name, t.leader_id, t.member_count, t.max_size, t.roster_locked, h.formation_closes_at
-      FROM teams t JOIN hackathons h ON h.id = t.hackathon_id WHERE t.id = ${teamId}`;
+      FROM teams t JOIN hackathons h ON h.id = t.hackathon_id WHERE t.id = ${teamId}
+       FOR SHARE OF t`;
   if (!team) fail('TEAM_NOT_FOUND');
-  // Requests lock only the requester's participant row: serialises against any seat claim for them.
+  // Then the requester's participant row: serialises against any seat claim for them.
   const [p] = await tx<{ team_id: string | null; display_name: string }[]>`
     SELECT p.team_id, u.display_name FROM participants p JOIN users u ON u.id = p.user_id
      WHERE p.hackathon_id = ${team.hackathon_id} AND p.user_id = ${userId}

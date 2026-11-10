@@ -19,7 +19,8 @@ export function createSql(url: string, opts: SqlOptions = {}): Sql {
     connect_timeout: 15,
     max_lifetime: 60 * 30,
     onnotice: () => {},
-    connection: { application_name: opts.applicationName ?? 'bandwagon' },
+    // UTC sessions: timestamps render identically whichever server or DB region serves them.
+    connection: { application_name: opts.applicationName ?? 'bandwagon', TimeZone: 'UTC' },
     transform: { undefined: null },
   }) as unknown as Sql;
 }

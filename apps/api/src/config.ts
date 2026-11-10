@@ -18,6 +18,9 @@ const EnvSchema = z.object({
   DEMO_MODE: bool,
   SEED_IF_EMPTY: bool,
   RATE_LIMIT_MAX: z.coerce.number().int().default(600),
+  DEMO_LOGIN_LIMIT: z.coerce.number().int().default(300),
+  /** multiplies every Postgres-backed limit; >1 only for load/chaos environments */
+  LIMITS_SCALE: z.coerce.number().min(1).default(1),
   LOG_LEVEL: z.string().default('info'),
   WEB_DIST: z.string().optional(),
   COALESCE_MS: z.coerce.number().int().default(150),
@@ -32,6 +35,7 @@ export interface Limits {
   loginPerEmail: number;
   loginPerIp: number;
   signupPerIp: number;
+  demoPerIp: number;
 }
 
 export interface Config {
@@ -73,12 +77,13 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, overrides: Part
     seedIfEmpty: e.SEED_IF_EMPTY,
     limits: {
       globalPerMinute: e.RATE_LIMIT_MAX,
-      redeemPerUser: 10,
-      redeemPerIp: 30,
-      redeemFailuresPerUser: 5,
-      loginPerEmail: 10,
-      loginPerIp: 30,
-      signupPerIp: 10,
+      redeemPerUser: 10 * e.LIMITS_SCALE,
+      redeemPerIp: 30 * e.LIMITS_SCALE,
+      redeemFailuresPerUser: 5 * e.LIMITS_SCALE,
+      loginPerEmail: 10 * e.LIMITS_SCALE,
+      loginPerIp: 30 * e.LIMITS_SCALE,
+      signupPerIp: 10 * e.LIMITS_SCALE,
+      demoPerIp: e.DEMO_LOGIN_LIMIT,
     },
     logLevel: e.LOG_LEVEL,
     webDist: e.WEB_DIST ?? null,

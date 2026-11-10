@@ -64,7 +64,18 @@ export async function demoRoutes(app: FastifyInstance) {
     await enforce(sql, 'race:global', 30, 60);
     const h = await resolveHackathon(sql, body.hackathonId);
 
-    const run = raceLock.then(() => race(h.id, body.attempts));
+    // One race at a time across every instance/worker (a session advisory lock on a
+    // reserved connection), so two arenas never hand the same bots to each other.
+    const run = raceLock.then(async () => {
+      const lock = await sql.reserve();
+      try {
+        await lock`SELECT pg_advisory_lock(424242)`;
+        return await race(h.id, body.attempts);
+      } finally {
+        await lock`SELECT pg_advisory_unlock(424242)`.catch(() => {});
+        lock.release();
+      }
+    });
     raceLock = run.catch(() => {});
     return run;
   });

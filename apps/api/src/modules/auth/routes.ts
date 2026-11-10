@@ -6,6 +6,7 @@ import { fail, parse } from '../../lib/errors';
 import { notify } from '../../lib/notify';
 import { enforce } from '../../lib/rateLimit';
 import { clearSession, issueSession } from '../../plugins/auth';
+import { viewerOffsets } from '../board/routes';
 import { checkCredentials, createUser, getMe, updateProfile } from './service';
 
 export async function authRoutes(app: FastifyInstance) {
@@ -44,7 +45,7 @@ export async function authRoutes(app: FastifyInstance) {
   app.post('/auth/demo', async (req, reply) => {
     if (!config.demoMode) fail('NOT_FOUND');
     const { persona } = parse(DemoLoginBody, req.body);
-    await enforce(sql, `demo:ip:${req.ip}`, 120, 600);
+    await enforce(sql, `demo:ip:${req.ip}`, config.limits.demoPerIp, 600);
     const rows =
       persona === 'random'
         ? await sql<{ id: string; role: 'participant' | 'organizer' }[]>`
@@ -60,6 +61,7 @@ export async function authRoutes(app: FastifyInstance) {
 
   app.patch('/me', { preHandler: app.authenticate }, async (req, reply) => {
     const patch = parse(ProfilePatch, req.body);
+    viewerOffsets.delete(req.auth.id);
     return runCommand(req, reply, async ({ tx, userId }) => {
       await updateProfile(tx, userId, patch);
       const memberships = await tx<{ hackathon_id: string; team_id: string | null; looking_for_team: boolean }[]>`

@@ -59,8 +59,8 @@ describe('idempotency', () => {
     // no key: the data model still makes a second seat impossible
     const again = await t.api.as(u.token).post('/api/invites/redeem', { code });
     expect(again.body.error.code).toBe('ALREADY_IN_TEAM');
-    const [{ member_count }] = await t.sql<{ member_count: number }[]>`SELECT member_count FROM teams WHERE id = ${team.id}`;
-    expect(member_count).toBe(2);
+    const [row] = await t.sql<{ member_count: number }[]>`SELECT member_count FROM teams WHERE id = ${team.id}`;
+    expect(row!.member_count).toBe(2);
   });
 
   it('does not store failures: a rejected attempt can be retried once the cause is gone', async () => {

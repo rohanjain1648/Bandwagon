@@ -36,9 +36,9 @@ async function teamState(teamId: string) {
   const [row] = await t.sql<{ member_count: number; actual: number }[]>`
     SELECT t.member_count, (SELECT count(*)::int FROM participants p WHERE p.team_id = t.id) AS actual
       FROM teams t WHERE t.id = ${teamId}`;
-  const [{ joins }] = await t.sql<{ joins: number }[]>`
+  const [joinRow] = await t.sql<{ joins: number }[]>`
     SELECT count(*)::int AS joins FROM audit_log WHERE team_id = ${teamId} AND action = 'member.joined'`;
-  return { ...row, joins };
+  return { ...row, joins: joinRow!.joins };
 }
 
 describe(`last seat race (${RACERS} racers × ${ROUNDS} rounds)`, () => {
@@ -118,6 +118,22 @@ describe(`last seat race (${RACERS} racers × ${ROUNDS} rounds)`, () => {
       expect(await t.sql`SELECT 1 FROM teams WHERE id = ${team.id}`).toHaveLength(0);
       const deleted = await t.sql`SELECT 1 FROM audit_log WHERE team_id = ${team.id} AND action = 'team.deleted'`;
       expect(deleted).toHaveLength(1);
+    }
+    expect(await invariantViolations(t.sql)).toEqual([]);
+  });
+
+  it('requesting to join a team at the instant its last member leaves never 500s (regression from the chaos run)', async () => {
+    for (let round = 0; round < ROUNDS * 2; round++) {
+      const { team, leader } = await makeTeam(t, h);
+      const hopefuls = await makeUsers(t, 10, { register: [h.id] });
+      const results = await Promise.all([
+        t.api.as(leader.token).post(`/api/teams/${team.id}/leave`),
+        ...hopefuls.map((u) => t.api.as(u.token).post(`/api/teams/${team.id}/requests`)),
+      ]);
+      for (const r of results.slice(1)) {
+        expect([201, 404], JSON.stringify(r.body)).toContain(r.status);
+        if (r.status === 404) expect(r.body.error.code).toBe('TEAM_NOT_FOUND');
+      }
     }
     expect(await invariantViolations(t.sql)).toEqual([]);
   });

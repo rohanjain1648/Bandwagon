@@ -5,6 +5,7 @@ import { buildApp } from '../../src/app';
 import { loadConfig, type Config } from '../../src/config';
 import { createSql, type Sql } from '../../src/db/pool';
 import { signToken } from '../../src/lib/jwt';
+import type { InviteView, TeamDetail } from '@bw/shared';
 import { insertHackathon, testDatabaseUrl, type HackathonRow } from './db';
 
 const OPEN_LIMITS = {
@@ -15,6 +16,7 @@ const OPEN_LIMITS = {
   loginPerEmail: 1_000,
   loginPerIp: 1_000_000,
   signupPerIp: 1_000_000,
+  demoPerIp: 1_000_000,
 };
 
 export interface TestServer {
@@ -165,7 +167,7 @@ export async function makeTeam(
     lookingFor: opts.lookingFor ?? [],
   });
   if (res.status !== 201) throw new Error(`makeTeam failed: ${res.status} ${JSON.stringify(res.body)}`);
-  const team = res.body as { id: string; invite: { code: string; id: string } };
+  const team = res.body as TeamDetail & { invite: InviteView };
   const members: TestUser[] = [];
   for (let i = 0; i < (opts.members ?? 0); i++) {
     const m = await makeUser(t, { register: [h.id], name: 'Member' });

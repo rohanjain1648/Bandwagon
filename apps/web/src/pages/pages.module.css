@@ -453,3 +453,15 @@ a.fitName:hover {
   margin: 0;
   font-weight: 700;
 }
+
+.fitSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tieNote {
+  margin-bottom: var(--s-3);
+  font-size: var(--t-13);
+  color: var(--ink-3);
+}

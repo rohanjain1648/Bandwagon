@@ -9,7 +9,7 @@ import { PersonCard } from '../components/PersonCard';
 import { ScoreBreakdown } from '../components/ScoreBreakdown';
 import { useShell } from '../components/Shell';
 import { TeamCard, type CardAction } from '../components/TeamCard';
-import { Button, EmptyState, ErrorNote, Field, Input, Panel, Select, Spinner, Textarea } from '../components/ui';
+import { Button, EmptyState, ErrorNote, Field, Input, Panel, Select, SkillChip, Spinner, Textarea } from '../components/ui';
 import { useAnnounce } from '../lib/announce';
 import { errorMessage } from '../lib/api';
 import { plural } from '../lib/format';
@@ -359,15 +359,32 @@ function PeopleGrid({ params, highlight }: { params: URLSearchParams; highlight:
   );
 }
 
-/** One line that separates candidates whose top factor ties: what they add, plus shared hours. */
-function fitLine(s: { components: { key: string; reason: string }[]; overlapHours: number; matchedSkills: string[] }): string {
-  const complement = s.components.find((c) => c.key === 'complement')?.reason.replace(/\.$/, '') ?? '';
-  const hours = s.overlapHours > 0 ? `${Number.isInteger(s.overlapHours) ? s.overlapHours : s.overlapHours.toFixed(1)} h of shared working hours` : 'no shared working hours';
-  return `${complement}; ${hours}.`;
+/** What this pick specifically brings (lit chips) and how much of the day you share. */
+function FitDetail({ s, skills }: { s: { matchedSkills: string[]; newRoles: string[]; overlapHours: number }; skills: string[] }) {
+  const roleSkills = skills.filter((id) => !s.matchedSkills.includes(id) && s.newRoles.includes(SKILLS.find((x) => x.id === id)?.role ?? ''));
+  const shown = [...s.matchedSkills, ...roleSkills].slice(0, 4);
+  const h = s.overlapHours;
+  return (
+    <>
+      {shown.length > 0 && (
+        <div className={styles.fitSkills} aria-label="What they bring">
+          {shown.map((id) => (
+            <SkillChip key={id} id={id} lit />
+          ))}
+        </div>
+      )}
+      <p className={styles.fitWhy}>{h > 0 ? `${Number.isInteger(h) ? h : h.toFixed(1)} h of shared working hours` : 'No shared working hours'}</p>
+    </>
+  );
+}
+
+function TieNote({ scores }: { scores: number[] }) {
+  if (scores.length < 2 || new Set(scores).size !== 1) return null;
+  return <p className={styles.tieNote}>Tied at {scores[0]}. Ties go to whoever brings more of the missing skills, then more shared hours.</p>;
 }
 
 function GoodFits() {
-  const { hackathon } = useShell();
+  const { hackathon, me } = useShell();
   const onTeam = Boolean(hackathon.me?.teamId);
   const teams = useTeamSuggestions(hackathon.id, 3, !onTeam);
   const people = usePeopleSuggestions(onTeam ? hackathon.id : undefined, 3);
@@ -376,6 +393,7 @@ function GoodFits() {
     <aside className={styles.aside} aria-labelledby="fits-title">
       <Panel as="div" title={<span id="fits-title">{onTeam ? 'People your team needs' : 'Good fits for you'}</span>}>
         {(onTeam ? people.isLoading : teams.isLoading) && <Spinner label="Scoring" />}
+        <TieNote scores={(onTeam ? people.data?.items : teams.data?.items)?.map((x) => x.score) ?? []} />
         <ol className={styles.fitList}>
           {!onTeam &&
             teams.data?.items.map((s) => (
@@ -389,7 +407,7 @@ function GoodFits() {
                   </span>
                 </div>
                 <ScoreBreakdown score={s} compact />
-                <p className={styles.fitWhy}>{fitLine(s)}</p>
+                <FitDetail s={s} skills={me.user.skills} />
               </li>
             ))}
           {onTeam &&
@@ -402,7 +420,7 @@ function GoodFits() {
                   </span>
                 </div>
                 <ScoreBreakdown score={s} compact />
-                <p className={styles.fitWhy}>{fitLine(s)}</p>
+                <FitDetail s={s} skills={s.person.skills} />
               </li>
             ))}
         </ol>

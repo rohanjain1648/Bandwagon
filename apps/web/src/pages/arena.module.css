@@ -37,7 +37,8 @@
 .token[data-state='won'] {
   border: 0;
   background: var(--shell);
-  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--foil);
+  /* the winner is not you: shell keyline, never the foil reserved for your own card */
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--shell-hi);
   transform: translateY(-4px) scale(1.06);
   animation: deal 420ms var(--ease-deal) both;
 }

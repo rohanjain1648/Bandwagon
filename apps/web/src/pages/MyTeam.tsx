@@ -204,16 +204,16 @@ function TeamRoom({ team: t }: { team: TeamDetail }) {
 
       <div className={team.layout}>
         <div className={team.mainCol}>
-          {t.viewer.isLeader && <RequestInbox team={t} />}
-          <ActivityLog teamId={t.id} />
+          {t.viewer.isLeader ? <RequestInbox team={t} /> : <ActivityLog teamId={t.id} />}
         </div>
         <div className={team.sideCol}>
           {t.viewer.isLeader && <InviteCard team={t} />}
           {t.viewer.isLeader && <MemberList team={t} />}
-          {t.viewer.isLeader && <TeamSettings team={t} />}
           <LeavePanel team={t} slug={hackathon.slug} />
         </div>
       </div>
+      {t.viewer.isLeader && <TeamSettings team={t} />}
+      {t.viewer.isLeader && <ActivityLog teamId={t.id} />}
     </div>
   );
 }
@@ -489,21 +489,25 @@ function TeamSettings({ team: t }: { team: TeamDetail }) {
             </div>
           </div>
         )}
-        <Field label="Team name" error={errors.name}>
-          {(p) => <Input {...p} value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} maxLength={40} />}
-        </Field>
-        <Field label="Pitch" optional error={errors.description}>
-          {(p) => <Textarea {...p} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} maxLength={280} />}
-        </Field>
-        <Field label="How people join">
-          {(p) => (
-            <Select {...p} value={draft.joinPolicy} onChange={(e) => setDraft({ ...draft, joinPolicy: e.target.value as 'open' | 'approval' })}>
-              <option value="approval">Approval: I accept each person</option>
-              <option value="open">Open: first come, first seated</option>
-            </Select>
-          )}
-        </Field>
-        <SkillPicker legend="Skills you’re looking for" value={draft.lookingFor} onChange={(v) => setDraft({ ...draft, lookingFor: v })} max={8} optional />
+        <div className={team.settingsGrid}>
+          <div className={styles.formGrid}>
+            <Field label="Team name" error={errors.name}>
+              {(p) => <Input {...p} value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} maxLength={40} />}
+            </Field>
+            <Field label="Pitch" optional error={errors.description}>
+              {(p) => <Textarea {...p} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} maxLength={280} />}
+            </Field>
+            <Field label="How people join">
+              {(p) => (
+                <Select {...p} value={draft.joinPolicy} onChange={(e) => setDraft({ ...draft, joinPolicy: e.target.value as 'open' | 'approval' })}>
+                  <option value="approval">Approval: I accept each person</option>
+                  <option value="open">Open: first come, first seated</option>
+                </Select>
+              )}
+            </Field>
+          </div>
+          <SkillPicker legend="Skills you’re looking for" value={draft.lookingFor} onChange={(v) => setDraft({ ...draft, lookingFor: v })} max={8} optional />
+        </div>
         <div className={styles.row}>
           <Button type="submit" busy={busy} disabled={!dirty}>
             Save details

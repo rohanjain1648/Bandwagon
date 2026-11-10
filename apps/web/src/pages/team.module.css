@@ -173,3 +173,18 @@
   color: var(--ink-3);
   font-size: var(--t-13);
 }
+
+/* team details: fields beside the skill picker, full width under the two columns */
+.settingsGrid {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 1.4fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+
+@media (max-width: 899px) {
+  .settingsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+

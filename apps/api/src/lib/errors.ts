@@ -1,5 +1,5 @@
 import { ERROR_COPY, ERROR_STATUS, type ErrorCode } from '@bw/shared';
-import { ZodError, type ZodSchema } from 'zod';
+import { ZodError, type ZodTypeAny, type output } from 'zod';
 
 export class AppError extends Error {
   readonly code: ErrorCode;
@@ -32,8 +32,8 @@ export function zodToAppError(err: ZodError): AppError {
 }
 
 /** Validate untrusted input; throws a 400 with field-level messages. */
-export function parse<T>(schema: ZodSchema<T>, data: unknown): T {
+export function parse<S extends ZodTypeAny>(schema: S, data: unknown): output<S> {
   const result = schema.safeParse(data ?? {});
   if (!result.success) throw zodToAppError(result.error);
-  return result.data;
+  return result.data as output<S>;
 }

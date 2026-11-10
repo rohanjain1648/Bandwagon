@@ -99,7 +99,8 @@ ALTER TABLE teams ADD CONSTRAINT leader_is_member
 -- ── invite codes ───────────────────────────────────────────────────────────
 CREATE TABLE invite_codes (
   id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  team_id    uuid NOT NULL REFERENCES teams (id) ON DELETE CASCADE,
+  -- SET NULL, not CASCADE: a code for a deleted team should say "team gone", not "invalid code"
+  team_id    uuid NULL REFERENCES teams (id) ON DELETE SET NULL,
   code       text NOT NULL UNIQUE CHECK (code ~ '^[0-9A-HJKMNP-TV-Z]{12}$'),
   created_by uuid NOT NULL REFERENCES users (id),
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -159,7 +160,7 @@ CREATE TABLE idempotency_keys (
   key          text NOT NULL CHECK (char_length(key) BETWEEN 8 AND 100),
   request_hash text NOT NULL,
   status_code  smallint NULL,
-  response     jsonb NULL,
+  response     json NULL,          -- json (not jsonb): a replay must be the original bytes, key order included
   created_at   timestamptz NOT NULL DEFAULT now(),
   PRIMARY KEY (user_id, key)
 );

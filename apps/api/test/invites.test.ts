@@ -95,15 +95,20 @@ describe('brute-force protection', () => {
   });
   afterAll(() => strict.close());
 
+  // Rate-limit buckets are shared across instances (they live in Postgres), so each test
+  // gets its own client IP, as a real proxied client would.
+  const fromIp = () => ({ 'x-forwarded-for': `10.${rand()}.${rand()}.${rand()}` });
+  const rand = () => Math.floor(Math.random() * 250) + 1;
+
   it('locks a user out after 5 wrong codes, even if the 6th is right', async () => {
     const { code } = await makeTeam(strict, sh);
     const guesser = await makeUser(strict, { register: [sh.id] });
+    const headers = fromIp();
+    const redeem = (c: string) => strict.api.req('POST', '/api/invites/redeem', { token: guesser.token, body: { code: c }, headers });
     const statuses: number[] = [];
-    for (let i = 0; i < 5; i++) {
-      statuses.push((await strict.api.as(guesser.token).post('/api/invites/redeem', { code: generateInviteCode() })).status);
-    }
+    for (let i = 0; i < 5; i++) statuses.push((await redeem(generateInviteCode())).status);
     expect(statuses).toEqual([404, 404, 404, 404, 404]);
-    const locked = await strict.api.as(guesser.token).post('/api/invites/redeem', { code });
+    const locked = await redeem(code);
     expect(locked.status).toBe(429);
     expect(locked.body.error.details.reason).toBe('too_many_wrong_codes');
   });
@@ -111,10 +116,23 @@ describe('brute-force protection', () => {
   it('caps attempts per user per window regardless of outcome', async () => {
     const u = await makeUser(strict, { register: [sh.id] });
     const { code } = await makeTeam(strict, sh);
+    const headers = fromIp();
     // preview counts toward the same budget as redeem
     const results: number[] = [];
-    for (let i = 0; i < 11; i++) results.push((await strict.api.as(u.token).get(`/api/invites/${code}`)).status);
+    for (let i = 0; i < 11; i++) results.push((await strict.api.req('GET', `/api/invites/${code}`, { token: u.token, headers })).status);
     expect(results.slice(0, 10).every((s) => s === 200)).toBe(true);
     expect(results[10]).toBe(429);
+  });
+
+  it('caps attempts per IP across many accounts', async () => {
+    const headers = fromIp();
+    const accounts = await Promise.all(Array.from({ length: 4 }, () => makeUser(strict, { register: [sh.id] })));
+    const statuses: number[] = [];
+    for (let i = 0; i < 31; i++) {
+      const who = accounts[i % accounts.length]!;
+      statuses.push((await strict.api.req('POST', '/api/invites/redeem', { token: who.token, body: { code: generateInviteCode() }, headers })).status);
+      if (statuses.at(-1) === 429) break;
+    }
+    expect(statuses).toContain(429);
   });
 });

@@ -81,7 +81,7 @@ participants(                                      -- registration + membership 
   UNIQUE (team_id, user_id),
   FOREIGN KEY (team_id, hackathon_id) REFERENCES teams(id, hackathon_id) ON DELETE SET NULL (team_id))
 
-invite_codes(id uuid PK, team_id FK CASCADE, code text UNIQUE, created_by, created_at,
+invite_codes(id uuid PK, team_id FK SET NULL (so a dead team’s code says “team gone”, not “invalid”), code text UNIQUE, created_by, created_at,
   expires_at, max_uses smallint NULL, uses smallint DEFAULT 0, revoked_at NULL,
   CHECK (max_uses IS NULL OR uses ≤ max_uses))
 
@@ -93,7 +93,7 @@ audit_log(id bigint IDENTITY PK, hackathon_id, team_id (no FK: survives deletion
   actor_id, action text, subject_id, details jsonb, request_id, created_at)
   -- trigger: BEFORE UPDATE OR DELETE → RAISE EXCEPTION (append-only)
 
-idempotency_keys(user_id, key, PRIMARY KEY (user_id, key), request_hash, status_code, response jsonb, created_at)
+idempotency_keys(user_id, key, PRIMARY KEY (user_id, key), request_hash, status_code, response json (not jsonb: replays keep the original bytes and key order), created_at)
 rate_limits(bucket text, window_start timestamptz, count int, PRIMARY KEY (bucket, window_start))
 ```
 
@@ -145,7 +145,7 @@ COMMIT;
 | Transfer leadership | verify leader, target is member → update `leader_id` | 403, 404 |
 | Edit team | `UPDATE … WHERE id AND leader_id = me AND version = $expected` | 412 VERSION_CONFLICT (body carries current team) |
 | Lock roster | verify leader, `member_count ≥ min_size` | 409 BELOW_MINIMUM |
-| Create request *(locks participant row only)* | `SELECT participant FOR UPDATE` → not in team, < 5 pending, team accepting → insert | 409 ALREADY_IN_TEAM, 409 ALREADY_REQUESTED, 409 TOO_MANY_REQUESTS |
+| Create request *(team FOR SHARE, then participant FOR UPDATE)* | share-lock team (exists, not full, not locked; can't be deleted mid-request, a bug the chaos test found) → `SELECT participant FOR UPDATE` → not in team, < 5 pending → insert | 409 ALREADY_IN_TEAM, 409 ALREADY_REQUESTED, 409 TOO_MANY_REQUESTS |
 | Redeem code | rate-limit check → find code → team lock → capacity → `UPDATE invite_codes SET uses=uses+1 WHERE … not expired/revoked/exhausted` → claim → audit | 404 INVALID_CODE, 410 CODE_EXPIRED, 429 |
 
 **Why accept claims the participant before touching the request row:** if two leaders accept the same person into two teams at once, both block on that person's participant row, before either holds the other's request row. The winner then cancels the loser's request, and the loser gets 0 rows and `409 ALREADY_IN_TEAM`. Reversing the order deadlocks (verified while designing; Postgres would abort one after `deadlock_timeout`).
@@ -208,7 +208,7 @@ The *have* set is the union of my team's skills (or my own, if solo). *Want* is 
 
 | Component | Weight | Definition |
 |---|---|---|
-| **Complement C** | 50 | If *want* is non-empty: `0.7·|cand ∩ want| / |want| + 0.3·G`; otherwise `G`, where `G` = share of the core roles missing from *have* that the candidate brings |
+| **Complement C** | 50 | If *want* is non-empty: `0.7·|cand ∩ want| / |want| + 0.3·G`; otherwise `G`, where `G = min(1, newRoles / min(2, missingRoles))`: bringing two roles nobody covers earns full marks |
 | **Time-zone overlap T** | 30 | Hours of working-window overlap on the 24 h UTC circle, taken as the **minimum over all current members** (a meeting needs everyone), capped at 8 h: `min(h,8)/8` |
 | **Novelty N** | 20 | `1 − |cand ∩ have| / |cand|`: share of the candidate's skills that are new to the team |
 
@@ -240,7 +240,8 @@ The *have* set is the union of my team's skills (or my own, if solo). *Want* is 
 
 ## 10. Performance budget
 
-- Board query: one indexed keyset scan + one lateral member aggregate for ≤ 24 teams + PK join to the leader for time-zone filtering. Target < 15 ms in the DB.
+- Board query: one indexed keyset scan + one lateral member aggregate for ≤ 24 teams + PK join to the leader for time-zone filtering; measured 1.4–2.3 ms in the DB. **Each card's JSON is built in Postgres** (`json_build_object(...)::text`) and passed through untouched: profiling showed ~40% of Node CPU in parse/re-serialize. A contract test pins it to `TeamSnapshot`. Total count runs in parallel and is cached 3 s per filter.
+- `WEB_CONCURRENCY=N` forks N workers (each with its own pool and LISTEN connection); measured results in [LOADTEST.md](LOADTEST.md).
 - Pool: 20 connections (Neon free allows more, but Render free has 0.1 CPU).
 - Compression on (`@fastify/compress`, br/gzip) for board JSON > 1 KB.
 - Web: route-level code splitting, self-hosted variable fonts (two files), no runtime CSS-in-JS. First-load JS target < 150 KB gzipped.
@@ -254,6 +255,8 @@ The *have* set is the union of my team's skills (or my own, if solo). *Want* is 
 - **Free-tier hosting:** Render free has 0.1 vCPU and sleeps after 15 minutes idle, so the live URL can cold-start in about 30 s. Load-test numbers come from the documented CI/local environment, not the free instance.
 
 ## 12. Operations
+
+- Sessions run with `TimeZone=UTC`; `LIMITS_SCALE` multiplies the Postgres-backed limits for load/chaos environments only.
 
 - `GET /healthz` (process), `GET /readyz` (DB round-trip), `GET /metrics` (Prometheus): `http_request_duration_seconds{route,method,status}`, `bw_join_attempts_total{via,outcome}`, `bw_tx_retries_total{code}`, `bw_idempotent_replays_total`, `bw_sse_clients`, `bw_sse_frames_total`.
 - Structured JSON logs (pino) with `reqId` propagated into audit rows.

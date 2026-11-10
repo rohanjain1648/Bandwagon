@@ -55,11 +55,13 @@ export function AnnounceProvider({ children }: { children: ReactNode }) {
       <div className="visually-hidden" aria-live="assertive" aria-atomic="true">
         {assertive}
       </div>
-      <ol className={styles.stack} aria-label="Notifications">
-        {toasts.map((t) => (
-          <ToastItem key={t.id} toast={t} onDone={() => dismiss(t.id)} />
-        ))}
-      </ol>
+      <section aria-label="Notifications">
+        <ol className={styles.stack}>
+          {toasts.map((t) => (
+            <ToastItem key={t.id} toast={t} onDone={() => dismiss(t.id)} />
+          ))}
+        </ol>
+      </section>
     </Ctx.Provider>
   );
 }

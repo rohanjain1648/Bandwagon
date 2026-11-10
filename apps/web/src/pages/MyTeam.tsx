@@ -183,7 +183,7 @@ function TeamRoom({ team: t }: { team: TeamDetail }) {
           {t.description && <p className={styles.lede}>{t.description}</p>}
         </div>
         <div className={styles.row}>
-          <Badge tone={ready ? 'success' : 'warn'}>{ready ? `Ready: ${t.memberCount} of ${t.minSize}+ needed` : `Needs ${t.minSize - t.memberCount} more to qualify`}</Badge>
+          <Badge tone={ready ? 'success' : 'warn'}>{ready ? `Ready: meets the minimum of ${t.minSize}` : `Needs ${t.minSize - t.memberCount} more to qualify`}</Badge>
           <Badge tone="shell">{t.joinPolicy === 'open' ? 'Open join' : 'Approval'}</Badge>
           {t.rosterLocked && <Badge>Roster locked</Badge>}
         </div>

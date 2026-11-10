@@ -74,6 +74,11 @@
 .toolbar {
   display: grid;
   gap: var(--s-3);
+  min-width: 0;
+}
+
+.toolbar > * {
+  min-width: 0;
 }
 
 .toolRow {
@@ -167,6 +172,46 @@
 .compactSelect {
   width: auto;
   min-width: 0;
+}
+
+@media (max-width: 767px) {
+  /* one swipeable line of skills instead of three wrapped lines */
+  .scrollRow {
+    min-inline-size: 0; /* fieldsets default to min-content and would push the page wide */
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(-1 * var(--s-4));
+    padding: 2px var(--s-4);
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .scrollRow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollRow > * {
+    flex: none;
+    scroll-snap-align: start;
+  }
+
+  .selectRow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .selectRow .compactSelect {
+    width: 100%;
+    font-size: var(--t-14);
+    padding-right: 28px;
+    background-position: right 8px center;
+  }
+
+  .selectRow > button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
 }
 
 .more {

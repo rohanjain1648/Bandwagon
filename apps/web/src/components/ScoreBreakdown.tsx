@@ -11,10 +11,12 @@ const TONE: Record<string, string> = { complement: 'var(--shell)', timezone: 'va
 export function ScoreBreakdown({ score, compact = false }: { score: Score; compact?: boolean }) {
   return (
     <div className={styles.wrap} data-compact={compact ? '' : undefined}>
-      <div className={styles.headline}>
-        <span className={styles.score}>{score.score}</span>
-        <span className={styles.of}>/ 100 fit</span>
-      </div>
+      {!compact && (
+        <div className={styles.headline}>
+          <span className={styles.score}>{score.score}</span>
+          <span className={styles.of}>/ 100 fit</span>
+        </div>
+      )}
       <div
         className={styles.bar}
         role="img"

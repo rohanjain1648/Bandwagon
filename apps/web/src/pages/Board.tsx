@@ -25,6 +25,8 @@ export function BoardPage() {
   const view = params.get('view') === 'people' ? 'people' : 'teams';
   const skills = useMemo(() => (params.get('skills') ?? '').split(',').filter(Boolean), [params]);
   const [q, setQ] = useState(params.get('q') ?? '');
+  const [moreOpen, setMoreOpen] = useState(false);
+  const extraSelected = skills.filter((s) => !QUICK_SKILLS.includes(s)).length;
 
   // debounce search into the URL so filters are shareable and survive refresh
   useEffect(() => {
@@ -105,46 +107,47 @@ export function BoardPage() {
                 />
               </div>
             </div>
-            <div className={styles.toolRow}>
-              <fieldset className={styles.filterSkills}>
-                <legend className="visually-hidden">Filter by skill (up to six)</legend>
-                {QUICK_SKILLS.map((id) => (
-                  <SkillToggle key={id} id={id} on={skills.includes(id)} onToggle={toggleSkill} />
-                ))}
-                <details className={styles.more}>
-                  <summary className={styles.toggle}>More skills{skills.filter((s) => !QUICK_SKILLS.includes(s)).length ? ` (${skills.filter((s) => !QUICK_SKILLS.includes(s)).length})` : ''}</summary>
-                  <div className={styles.morePanel}>
-                    {ROLES.map((role) => (
-                      <div key={role} className={styles.roleGroup}>
-                        <span className={styles.roleName}>{ROLE_LABELS[role]}</span>
-                        <div className={styles.filterSkills}>
-                          {SKILLS.filter((s) => s.role === role).map((s) => (
-                            <SkillToggle key={s.id} id={s.id} on={skills.includes(s.id)} onToggle={toggleSkill} />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+            <fieldset className={`${styles.filterSkills} ${styles.scrollRow}`}>
+              <legend className="visually-hidden">Filter by skill (up to six)</legend>
+              {QUICK_SKILLS.map((id) => (
+                <SkillToggle key={id} id={id} on={skills.includes(id)} onToggle={toggleSkill} />
+              ))}
+              <button type="button" className={styles.toggle} aria-expanded={moreOpen} aria-controls="more-skills" onClick={() => setMoreOpen((o) => !o)}>
+                {moreOpen ? 'Fewer skills' : 'More skills'}
+                {extraSelected ? ` (${extraSelected})` : ''}
+              </button>
+            </fieldset>
+            {moreOpen && (
+              <div id="more-skills" className={styles.morePanel}>
+                {ROLES.map((role) => (
+                  <div key={role} className={styles.roleGroup}>
+                    <span className={styles.roleName}>{ROLE_LABELS[role]}</span>
+                    <div className={styles.filterSkills}>
+                      {SKILLS.filter((s) => s.role === role).map((s) => (
+                        <SkillToggle key={s.id} id={s.id} on={skills.includes(s.id)} onToggle={toggleSkill} />
+                      ))}
+                    </div>
                   </div>
-                </details>
-              </fieldset>
-            </div>
-            <div className={styles.toolRow}>
-              <Select className={styles.compactSelect} value={params.get('tz') ?? ''} onChange={(e) => update({ tz: e.target.value || null })} aria-label="Time zone">
+                ))}
+              </div>
+            )}
+            <div className={`${styles.toolRow} ${styles.selectRow}`}>
+              <Select className={styles.compactSelect} value={params.get('tz') ?? ''} onChange={(e) => update({ tz: e.target.value || null })} aria-label="Time zone distance from you">
                 <option value="">Any time zone</option>
-                <option value="2">Within 2 h of me</option>
-                <option value="4">Within 4 h of me</option>
-                <option value="6">Within 6 h of me</option>
+                <option value="2">Within 2 h</option>
+                <option value="4">Within 4 h</option>
+                <option value="6">Within 6 h</option>
               </Select>
               {view === 'teams' && (
                 <>
                   <Select className={styles.compactSelect} value={params.get('policy') ?? ''} onChange={(e) => update({ policy: e.target.value || null })} aria-label="How the team takes members">
-                    <option value="">Open join or approval</option>
-                    <option value="open">Open join only</option>
-                    <option value="approval">Approval only</option>
+                    <option value="">Any policy</option>
+                    <option value="open">Open join</option>
+                    <option value="approval">Approval</option>
                   </Select>
-                  <Select className={styles.compactSelect} value={params.get('sort') ?? ''} onChange={(e) => update({ sort: e.target.value || null })} aria-label="Sort">
-                    <option value="">Newest first</option>
-                    <option value="filling">Almost full first</option>
+                  <Select className={styles.compactSelect} value={params.get('sort') ?? ''} onChange={(e) => update({ sort: e.target.value || null })} aria-label="Sort teams">
+                    <option value="">Newest</option>
+                    <option value="filling">Almost full</option>
                   </Select>
                 </>
               )}
@@ -164,10 +167,12 @@ export function BoardPage() {
           </div>
 
           <Tabs.Content value="teams" className={styles.stack}>
+            <h2 className="visually-hidden">Teams with open seats</h2>
             {newTeams.length > 0 && <NewTeamsPill count={newTeams.length} onShow={clearNewTeams} hid={hackathon.id} />}
             <TeamsGrid params={apiParams} highlight={skills} />
           </Tabs.Content>
           <Tabs.Content value="people" className={styles.stack}>
+            <h2 className="visually-hidden">People looking for a team</h2>
             <PeopleGrid params={apiParams} highlight={skills} />
           </Tabs.Content>
         </Tabs.Root>

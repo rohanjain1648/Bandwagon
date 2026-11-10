@@ -54,7 +54,7 @@
 }
 
 .seat[data-phase='bounced'] {
-  animation: bounce 650ms var(--ease-out) forwards;
+  animation: rejected 650ms var(--ease-out) forwards;
 }
 
 .face {
@@ -99,7 +99,7 @@
   }
 }
 
-@keyframes bounce {
+@keyframes rejected {
   0% {
     transform: none;
   }

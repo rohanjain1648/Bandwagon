@@ -223,8 +223,10 @@
   color: #fff;
 }
 
+/* dimmed = quieter frame, never lower text contrast */
 .chip[data-dim] {
-  opacity: 0.45;
+  border-color: var(--keyline);
+  background: transparent;
 }
 
 .badge {

@@ -216,9 +216,9 @@
 
 .meSkills {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   margin-top: 2px;
-  overflow: hidden;
 }
 
 /* ── phone: top bar + bottom tabs ──────────────────────────────────────── */

@@ -1,6 +1,7 @@
 .field {
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-columns: repeat(10, minmax(0, 44px));
+  justify-content: start;
   gap: 6px;
   margin: 0 0 var(--s-5);
   padding: 0;

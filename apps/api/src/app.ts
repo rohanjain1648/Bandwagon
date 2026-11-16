@@ -79,7 +79,8 @@ export async function buildApp(config: Config, deps: AppDeps = {}): Promise<Fast
         scriptSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", 'data:'],
-        fontSrc: ["'self'"],
+        // Vite inlines small font subsets as data: URIs
+        fontSrc: ["'self'", 'data:'],
         connectSrc: ["'self'"],
         frameAncestors: ["'none'"],
         baseUri: ["'self'"],

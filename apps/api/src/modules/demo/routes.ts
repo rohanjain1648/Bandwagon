@@ -48,7 +48,14 @@ async function ensureBots(sql: Sql, hackathonId: string, count: number): Promise
   return free;
 }
 
-let raceLock: Promise<unknown> = Promise.resolve();
+/**
+ * One race at a time across every instance/worker. A session advisory lock only
+ * works on a direct connection: behind a transaction pooler (Neon, PgBouncer) the
+ * unlock can land on a different backend session and the lock leaks forever.
+ * (The key changed from 424242 so a lock leaked that way by older builds is ignored.)
+ */
+const RACE_LOCK_KEY = 424_243;
+const RACE_LOCK_WAIT_MS = 20_000;
 
 export async function demoRoutes(app: FastifyInstance) {
   const { sql, config } = app;
@@ -65,20 +72,26 @@ export async function demoRoutes(app: FastifyInstance) {
     await enforce(sql, 'race:global', 30, 60);
     const h = await resolveHackathon(sql, body.hackathonId);
 
-    // One race at a time across every instance/worker (a session advisory lock on a
-    // reserved connection), so two arenas never hand the same bots to each other.
-    const run = raceLock.then(async () => {
-      const lock = await sql.reserve();
+    // One race at a time, so two arenas never hand the same bots to each other.
+    // Its own single direct connection: lock and unlock are guaranteed the same session,
+    // and closing the connection releases the lock even if the unlock never runs.
+    const lockSql = createSql(config.listenDatabaseUrl, { max: 1, prepare: false, applicationName: 'bandwagon-race-lock' });
+    try {
+      const deadline = Date.now() + RACE_LOCK_WAIT_MS;
+      for (;;) {
+        const [row] = await lockSql<{ ok: boolean }[]>`SELECT pg_try_advisory_lock(${RACE_LOCK_KEY}) AS ok`;
+        if (row?.ok) break;
+        if (Date.now() > deadline) fail('RATE_LIMITED', undefined, 'Another race is still running. Try again in a few seconds.');
+        await new Promise((r) => setTimeout(r, 250));
+      }
       try {
-        await lock`SELECT pg_advisory_lock(424242)`;
         return await race(h.id, body.attempts);
       } finally {
-        await lock`SELECT pg_advisory_unlock(424242)`.catch(() => {});
-        lock.release();
+        await lockSql`SELECT pg_advisory_unlock(${RACE_LOCK_KEY})`.catch(() => {});
       }
-    });
-    raceLock = run.catch(() => {});
-    return run;
+    } finally {
+      await lockSql.end({ timeout: 5 });
+    }
   });
 
   async function race(hackathonId: string, attempts: number): Promise<RaceResult> {

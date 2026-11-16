@@ -23,6 +23,23 @@ describe('race arena & ops', () => {
     expect(await invariantViolations(t.sql)).toEqual([]);
   });
 
+  it('runs race after race, including two at once (the race lock is always released)', async () => {
+    // Regression: a session advisory lock taken through a transaction pooler leaked,
+    // so every race after the first hung forever.
+    const judge = await makeUser(t, { register: [h.id] });
+    const again = await t.api.as(judge.token).post('/api/demo/race', { hackathonId: h.id, attempts: 10 });
+    expect(again.status).toBe(200);
+    const both = await Promise.all([
+      t.api.as(judge.token).post('/api/demo/race', { hackathonId: h.id, attempts: 10 }),
+      t.api.as(judge.token).post('/api/demo/race', { hackathonId: h.id, attempts: 10 }),
+    ]);
+    for (const res of both) expect(res.body).toMatchObject({ winners: 1, invariantViolations: 0 });
+    const [locks] = await t.sql<{ held: number }[]>`
+      SELECT count(*)::int AS held FROM pg_locks WHERE locktype = 'advisory' AND objid = 424243`;
+    expect(locks?.held).toBe(0);
+    expect(await invariantViolations(t.sql)).toEqual([]);
+  });
+
   it('exposes Prometheus metrics including seat-claim outcomes', async () => {
     const res = await t.api.req('GET', '/metrics');
     expect(res.status).toBe(200);
